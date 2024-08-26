@@ -1,7 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.querySelectorAll('[data-nav-link]');
   const contentDiv = document.getElementById('content');
-  
+
+  const showToast = (message) => {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.className = "toast show";
+    setTimeout(() => {
+      toast.className = toast.className.replace("show", "");
+    }, 3000); // O toast desaparecerá após 3 segundos
+  };
+
   // Definição da função elementToggleFunc
   const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
@@ -138,20 +147,44 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
 
-    // download certificate
-    const certificateLinks = document.querySelectorAll('.clients-item a[data-certificate]');
-    certificateLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();  // Prevent the default link behavior
-        const certificateName = this.getAttribute('data-certificate');
-        const linkElement = document.createElement('a');
-        linkElement.href = `./assets/${certificateName}`;
-        linkElement.download = certificateName;
-        document.body.appendChild(linkElement);
-        linkElement.click();
-        document.body.removeChild(linkElement);
+        // download certificate
+        const certificateLinks = document.querySelectorAll('.clients-item a[data-certificate]');
+        certificateLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();  // Prevent the default link behavior
+            const certificateName = this.getAttribute('data-certificate');
+            const linkElement = document.createElement('a');
+            linkElement.href = `./assets/${certificateName}`;
+            linkElement.download = certificateName;
+            document.body.appendChild(linkElement);
+            linkElement.click();
+            document.body.removeChild(linkElement);
+          });
+        });
+      
+
+    // Handle form submission using EmailJS
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const fullname = document.querySelector('input[name="from_name"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const message = document.querySelector('textarea[name="message"]').value;
+
+        emailjs.send("service_34r5f3e", "template_ys42nla", {
+          from_name: fullname,
+          email: email,
+          message: message
+        })
+        .then((response) => {
+          showToast('Message sent successfully!');
+        }, (error) => {
+          showToast('Failed to send message. Please try again later.');
+          console.error('FAILED...', error);
+        });
       });
-    });
+    }
   }
   
   function loadContent(page) {
@@ -189,5 +222,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Attach persistent events on initial load
   attachPersistentEvents();
-
 });
