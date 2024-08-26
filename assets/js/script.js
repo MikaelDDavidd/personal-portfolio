@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.querySelectorAll('[data-nav-link]');
   const contentDiv = document.getElementById('content');
 
+  // Definição da função elementToggleFunc
+  const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
+
   function attachEventListeners() {
     // sidebar variables
     const sidebar = document.querySelector("[data-sidebar]");
