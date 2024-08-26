@@ -1,5 +1,3 @@
-'use strict';
-
 document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.querySelectorAll('[data-nav-link]');
   const contentDiv = document.getElementById('content');
@@ -128,6 +126,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     }
+
+    // download certificate
+    const certificateLinks = document.querySelectorAll('.clients-item a[data-certificate]');
+    certificateLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();  // Prevent the default link behavior
+        const certificateName = this.getAttribute('data-certificate');
+        const linkElement = document.createElement('a');
+        linkElement.href = `./assets/${certificateName}`;
+        linkElement.download = certificateName;
+        document.body.appendChild(linkElement);
+        linkElement.click();
+        document.body.removeChild(linkElement);
+      });
+    });
   }
 
   function loadContent(page) {

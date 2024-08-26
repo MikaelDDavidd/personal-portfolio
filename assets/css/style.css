@@ -756,7 +756,7 @@ main {
 
 .clients-item img:hover { 
   filter: grayscale(1);
-  scale: 150%;
+  scale: 110%;
 
 }
 
@@ -1503,6 +1503,51 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   .skills-item:not(:last-child) { margin-bottom: 25px; }
+
+  .clients-item {
+    position: relative;
+  }
+  
+  .client-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  
+  .client-item-icon-box {
+    --scale: 0.8;
+  
+    background: var(--jet);
+    color: var(--orange-yellow-crayola);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--scale));
+    font-size: 18px;
+    padding: 18px;
+    border-radius: 12px;
+    opacity: 0;
+    z-index: 1;
+    transition: var(--transition-1);
+  }
+  
+  .client-img-wrapper:hover .client-item-icon-box {
+    --scale: 1;
+    opacity: 1;
+  }
+  
+  .client-item-icon-box ion-icon { --ionicon-stroke-width: 50px; }
+  
+  .clients-item img {
+    width: 100%;
+    transition: var(--transition-1);
+  }
+  
+  .client-img-wrapper:hover img {
+    transform: scale(1.1);
+    filter: grayscale(100%);
+  }
 
 
 
