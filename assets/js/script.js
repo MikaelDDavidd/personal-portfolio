@@ -1,19 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.querySelectorAll('[data-nav-link]');
   const contentDiv = document.getElementById('content');
-
+  
   // Definição da função elementToggleFunc
   const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
-  function attachEventListeners() {
+  // Attach events that need to persist across page changes
+  function attachPersistentEvents() {
     // sidebar variables
     const sidebar = document.querySelector("[data-sidebar]");
     const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
-    // sidebar toggle functionality for mobile
+    // Remove event listener if it exists (to prevent duplication)
     if (sidebarBtn) {
-      sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+      sidebarBtn.removeEventListener("click", toggleSidebar);
+      sidebarBtn.addEventListener("click", toggleSidebar);
     }
+
+    function toggleSidebar() {
+      elementToggleFunc(sidebar);
+    }
+  }
+
+  // Reattach events after content is loaded
+  function attachEventListeners() {
+    // Aqui você pode reanexar eventos para outros elementos carregados dinamicamente
 
     // testimonials variables
     const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
@@ -142,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-
+  
   function loadContent(page) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `./pages/${page}.html`, true);
@@ -150,12 +161,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         contentDiv.innerHTML = xhr.responseText;
         attachEventListeners(); // Attach events after content load
-  
+
         // Adicionando a classe "active" ao artigo carregado
         const article = contentDiv.querySelector("article");
         if (article) {
           article.classList.add("active");
         }
+      } else if (xhr.readyState === 4 && xhr.status !== 200) {
+        console.error(`Error loading page: ${page}`);
       }
     };
     xhr.send();
@@ -173,4 +186,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Load the default page (About) on initial load
   loadContent('about');
+
+  // Attach persistent events on initial load
+  attachPersistentEvents();
+
 });

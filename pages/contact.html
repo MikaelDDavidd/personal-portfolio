@@ -1,42 +1,39 @@
-      <!--
-        - #CONTACT
-      -->
+<!-- #CONTACT -->
+<article class="contact" data-page="contact">
 
-      <article class="contact" data-page="contact">
+  <header>
+    <h2 class="h2 article-title">Contact</h2>
+  </header>
 
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
-        </header>
+  <section class="mapbox" data-mapbox>
+    <figure>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62984.7542715743!2d-40.55123222465463!3d-9.37328076970016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7737a8452b2d649%3A0xa0e71dc0c94e0aed!2sPetrolina%2C%20PE!5e0!3m2!1spt-BR!2sbr!4v1724476870575!5m2!1spt-BR!2sbr"
+        width="400" height="300" loading="lazy"></iframe>
+    </figure>
+  </section>
 
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62984.7542715743!2d-40.55123222465463!3d-9.37328076970016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7737a8452b2d649%3A0xa0e71dc0c94e0aed!2sPetrolina%2C%20PE!5e0!3m2!1spt-BR!2sbr!4v1724476870575!5m2!1spt-BR!2sbr"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
+  <section class="contact-form">
 
-        <section class="contact-form">
+    <h3 class="h3 form-title">Contact Form</h3>
 
-          <h3 class="h3 form-title">Contact Form</h3>
+    <form id="contact-form" class="form" data-form>
 
-          <form action="#" class="form" data-form>
+      <div class="input-wrapper">
+        <input type="text" name="from_name" id="from_name" class="form-input" placeholder="Full name" required data-form-input>
 
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
+        <input type="email" name="email" id="email" class="form-input" placeholder="Email address" required data-form-input>
+      </div>
 
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
-            </div>
+      <textarea name="message" id="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
 
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+      <button class="form-btn" type="submit" id="send-email" data-form-btn>
+        <ion-icon name="paper-plane"></ion-icon>
+        <span>Send Message</span>
+      </button>
 
-            <button class="form-btn" type="submit" disabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
+    </form>
 
-          </form>
+  </section>
 
-        </section>
-
-      </article>
+</article>
