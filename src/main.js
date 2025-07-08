@@ -1,5 +1,5 @@
 /**
- * main.js - Inicializador simples
+ * main.js - Inicializador do sistema híbrido completo
  */
 
 import supabaseService from "./services/supabase.service.js";
@@ -30,21 +30,25 @@ async function init() {
     // Expor globalmente
     window.portfolioApp = { supabaseService };
 
-    // Carregar portfolio dinâmico
+    // Carregar todas as páginas dinâmicas
+    console.log("🔄 Carregando sistema dinâmico...");
+
+    // Portfolio dinâmico
     await import("./pages/portfolio.dynamic.js");
 
-    // Carregar blog timeline
+    // Blog dinâmico (timeline)
     await import("./pages/blog-timeline.dynamic.js");
 
-    // Carregar CSS do blog (novo caminho organizado)
-    const blogCSS = document.createElement("link");
-    blogCSS.rel = "stylesheet";
-    blogCSS.href = "./src/styles/pages/blog.css";
-    document.head.appendChild(blogCSS);
-    console.log("🎨 CSS do blog carregado");
+    // About dinâmico
+    await import("./pages/about.dynamic.js");
+
+    // Resume dinâmico
+    await import("./pages/resume.dynamic.js");
 
     // Sistema pronto
-    console.log("✅ Sistema híbrido ativo!");
+    console.log("✅ Sistema híbrido completo ativo!");
+    console.log("📊 Módulos carregados: Portfolio, Blog, About, Resume");
+    document.body.classList.add("app-ready");
   } catch (error) {
     console.warn("⚠️ Sistema dinâmico falhou, usando estático:", error);
   }
