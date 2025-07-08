@@ -2,7 +2,7 @@
  * Blog Timeline Dinâmico - Posts em timeline estilo education
  */
 
-import BlogService from '../services/blog.service.js';
+import BlogService from "../services/blog.service.js";
 
 // Aguardar sistema estar pronto
 async function waitForSupabase() {
@@ -29,7 +29,7 @@ class BlogTimelineDynamic {
     try {
       // Aguardar Supabase
       const supabaseService = await waitForSupabase();
-      
+
       if (!supabaseService) {
         console.log("⚠️ Supabase não disponível");
         return;
@@ -62,9 +62,6 @@ class BlogTimelineDynamic {
     const postsList = document.querySelector(".blog-posts-list");
     if (!postsList) return;
 
-    // Carregar CSS da timeline
-    this.loadTimelineCSS();
-
     // Estrutura da timeline
     const timelineHTML = `
       <div class="blog-timeline">
@@ -91,17 +88,17 @@ class BlogTimelineDynamic {
   }
 
   renderPosts() {
-    const timelineList = document.getElementById('timeline-posts');
+    const timelineList = document.getElementById("timeline-posts");
     if (!timelineList) return;
 
     // Gerar HTML dos posts
     const postsHTML = this.posts
-      .map(post => this.createPostCard(post))
+      .map((post) => this.createPostCard(post))
       .join("");
 
     // Atualizar DOM
     timelineList.innerHTML = postsHTML;
-    timelineList.classList.remove('loading-blog-timeline');
+    timelineList.classList.remove("loading-blog-timeline");
   }
 
   createPostCard(post) {
@@ -116,10 +113,12 @@ class BlogTimelineDynamic {
             <span class="blog-post-date">${date}</span>
           </div>
           
-          ${post.featured_image_url ? 
-            `<div class="blog-post-image">
+          ${
+            post.featured_image_url
+              ? `<div class="blog-post-image">
               <img src="${post.featured_image_url}" alt="${post.title}" loading="lazy">
-            </div>` : ''
+            </div>`
+              : ""
           }
           
           <div class="blog-post-content">
@@ -132,15 +131,6 @@ class BlogTimelineDynamic {
         </div>
       </li>
     `;
-  }
-
-  loadTimelineCSS() {
-    if (!document.querySelector('link[href*="blog-timeline.css"]')) {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = './assets/css/components/blog-timeline.css';
-      document.head.appendChild(link);
-    }
   }
 }
 

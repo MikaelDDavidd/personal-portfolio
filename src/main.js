@@ -36,12 +36,12 @@ async function init() {
     // Carregar blog timeline
     await import("./pages/blog-timeline.dynamic.js");
 
-    // Carregar CSS do blog timeline
-    const blogTimelineCSS = document.createElement("link");
-    blogTimelineCSS.rel = "stylesheet";
-    blogLayoutFixCSS.href = "./assets/css/components/blog-layout-fix.css";
-    blogTimelineCSS.href = "./assets/css/components/blog-timeline.css";
-    document.head.appendChild(blogTimelineCSS);
+    // Carregar CSS do blog (novo caminho organizado)
+    const blogCSS = document.createElement("link");
+    blogCSS.rel = "stylesheet";
+    blogCSS.href = "./src/styles/pages/blog.css";
+    document.head.appendChild(blogCSS);
+    console.log("🎨 CSS do blog carregado");
 
     // Sistema pronto
     console.log("✅ Sistema híbrido ativo!");

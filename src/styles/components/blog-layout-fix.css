@@ -1,0 +1,80 @@
+/**
+ * Debug Blog CSS - Verificar se está carregando + correção forte
+ */
+
+/* DEBUG: Se este CSS carregar, o fundo ficará vermelho por 2s */
+article.blog {
+  background: rgba(255, 0, 0, 0.1) !important;
+  animation: debug-flash 2s ease-out forwards;
+}
+
+@keyframes debug-flash {
+  0% { background: rgba(255, 0, 0, 0.3) !important; }
+  100% { background: transparent !important; }
+}
+
+/* CORREÇÃO FORTE: Sobrescrever TODAS as limitações */
+article.blog {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-inline: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Para todos os containers filhos do blog */
+article.blog * {
+  max-width: none !important;
+}
+
+.blog-posts,
+.blog-posts-list,
+.blog-timeline,
+.blog-timeline-list {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Timeline items ocupando toda largura */
+.blog-timeline-item {
+  width: 100% !important;
+  max-width: none !important;
+  margin-right: 0 !important;
+}
+
+.blog-post-card {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+/* Forçar em todas as media queries */
+@media (min-width: 580px) {
+  article.blog {
+    width: 100% !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  article.blog {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+@media (min-width: 1250px) {
+  article.blog {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+/* DEBUG: Mostrar bordas para identificar containers */
+.debug-containers article.blog,
+.debug-containers .blog-timeline-item,
+.debug-containers .blog-post-card {
+  outline: 2px solid rgba(0, 255, 0, 0.5) !important;
+}
