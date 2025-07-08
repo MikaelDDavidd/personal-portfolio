@@ -2,224 +2,224 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>vCard - Personal Portfolio</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vCard - Personal Portfolio</title>
 
-  <!--
+    <!--
     - favicon
   -->
-  <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon" />
 
-  <!--
+    <!--
     - custom css link
   -->
-  <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
 
-  <!--
+    <!--
     - google font link
   -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
 
 <body>
-
-  <!--
+    <!--
     - #MAIN
   -->
 
-  <main>
-
-    <!--
+    <main>
+        <!--
       - #SIDEBAR
     -->
 
-    <aside class="sidebar" data-sidebar>
+        <aside class="sidebar" data-sidebar>
+            <div class="sidebar-info">
+                <figure class="avatar-box">
+                    <img src="./assets/images/my_avatar.png" alt="Mikael David" width="80" />
+                </figure>
 
-      <div class="sidebar-info">
+                <div class="info-content">
+                    <h1 class="name" title="Mikael David">Mikael David</h1>
 
-        <figure class="avatar-box">
-          <img src="./assets/images/my_avatar.png" alt="Mikael David" width="80">
-        </figure>
+                    <p class="title">Mobile developer</p>
+                </div>
 
-        <div class="info-content">
-          <h1 class="name" title="Mikael David">Mikael David</h1>
+                <button class="info_more-btn" data-sidebar-btn>
+            <span>Show Contacts</span>
 
-          <p class="title">Mobile developer</p>
-        </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
-      </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
+            <ion-icon name="chevron-down"></ion-icon>
+          </button>
             </div>
 
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
+            <div class="sidebar-info_more">
+                <div class="separator"></div>
 
-              <a href="mikaeldavidlopes@gmail.com" class="contact-link">mikaeldavidlopes@gmail.com</a>
-            </div>
+                <ul class="contacts-list">
+                    <li class="contact-item">
+                        <div class="icon-box">
+                            <ion-icon name="mail-outline"></ion-icon>
+                        </div>
 
-          </li>
+                        <div class="contact-info">
+                            <p class="contact-title">Email</p>
 
-          <li class="contact-item">
+                            <a href="mikaeldavidlopes@gmail.com" class="contact-link">mikaeldavidlopes@gmail.com</a
+                >
+              </div>
+            </li>
 
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
-            </div>
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+              </div>
 
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
+              <div class="contact-info">
+                <p class="contact-title">Phone</p>
 
-              <a href="tel:+5587988024450" class="contact-link">+55 (87)98802-4450</a>
-            </div>
+                <a href="tel:+5587988024450" class="contact-link"
+                  >+55 (87)98802-4450</a
+                >
+              </div>
+            </li>
 
-          </li>
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="calendar-outline"></ion-icon>
+              </div>
 
-          <li class="contact-item">
+              <div class="contact-info">
+                <p class="contact-title">Birthday</p>
 
-            <div class="icon-box">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
+                <time datetime="1982-06-23">April 12, 2002</time>
+              </div>
+            </li>
 
-            <div class="contact-info">
-              <p class="contact-title">Birthday</p>
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="location-outline"></ion-icon>
+              </div>
 
-              <time datetime="1982-06-23">April 12, 2002</time>
-            </div>
+              <div class="contact-info">
+                <p class="contact-title">Location</p>
 
-          </li>
+                <address>Petrolina, Pernambuco, Brazil</address>
+              </div>
+            </li>
+          </ul>
 
-          <li class="contact-item">
+          <div class="separator"></div>
 
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
+          <ul class="social-list">
+            <li class="social-item">
+              <a
+                href="https://www.facebook.com/profile.php?id=61564822349005"
+                class="social-link"
+              >
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+                    </li>
 
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
+                    <li class="social-item">
+                        <a href="https://github.com/MikaelDDavidd" class="social-link">
+                            <ion-icon name="logo-github"></ion-icon>
+                        </a>
+                    </li>
 
-              <address>Petrolina, Pernambuco, Brazil</address>
-            </div>
+                    <li class="social-item">
+                        <a href="https://www.instagram.com/kael_davidd/" class="social-link">
+                            <ion-icon name="logo-instagram"></ion-icon>
+                        </a>
+                    </li>
+                </ul>
+                </div>
+        </aside>
 
-          </li>
-
-        </ul>
-
-        <div class="separator"></div>
-
-        <ul class="social-list">
-
-          <li class="social-item">
-            <a href="https://www.facebook.com/profile.php?id=61564822349005" class="social-link">
-              <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://github.com/MikaelDDavidd" class="social-link">
-              <ion-icon name="logo-github"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.instagram.com/kael_davidd/" class="social-link">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
-        </ul>
-
-      </div>
-
-    </aside>
-
-
-
-
-
-    <!--
+        <!--
       - #main-content
     -->
 
-    <div class="main-content">
-
-      <!--
+        <div class="main-content">
+            <!--
         - #NAVBAR
       -->
 
-      <nav class="navbar">
+            <nav class="navbar">
+                <ul class="navbar-list">
+                    <li class="navbar-item">
+                        <button class="navbar-link active" data-nav-link>About</button>
+                    </li>
 
-        <ul class="navbar-list">
+                    <li class="navbar-item">
+                        <button class="navbar-link" data-nav-link>Resume</button>
+                    </li>
 
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
-          </li>
+                    <li class="navbar-item">
+                        <button class="navbar-link" data-nav-link>Portfolio</button>
+                    </li>
 
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
+                    <li class="navbar-item">
+                        <button class="navbar-link" data-nav-link>Blog</button>
+                    </li>
 
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li>
+                    <li class="navbar-item">
+                        <button class="navbar-link" data-nav-link>Contact</button>
+                    </li>
+                </ul>
+            </nav>
 
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Blog</button>
-          </li>
+            <div id="content"></div>
+            <div id="toast" class="toast"></div>
+        </div>
+    </main>
 
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>
+    <!-- Sistema Original (manter funcionando) -->
+    <script src="./assets/js/script.js"></script>
 
-        </ul>
+    <!-- Ionicons (manter) -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-      </nav>
+    <!-- EmailJS (manter) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init({
+                publicKey: "Dd2Vk-XIErFhMe-9B",
+            });
+        })();
+    </script>
 
-      <div id="content"></div>
-      <div id="toast" class="toast"></div>
-    </div>
+    <!-- NOVO: Sistema Dinâmico -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="./src/main.js"></script>
 
-  </main>
-
-  <!--
-    - custom js link
-  -->
-  <script src="./assets/js/script.js"></script>
-
-  <!--
-    - ionicon link
-  -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "Dd2Vk-XIErFhMe-9B",
-      });
-   })();
-</script>
-
+    <!-- NOVO: CSS para sistema dinâmico -->
+    <style>
+        .loading-projects {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .loading-projects::after {
+            content: "🔄 Carregando projetos...";
+            display: block;
+            text-align: center;
+            padding: 20px;
+            color: var(--orange-yellow-crayola);
+        }
+        
+        .app-ready .navbar-link::after {
+            content: " 🔥";
+            font-size: 10px;
+        }
+    </style>
+    <!-- Adicionar antes do </body> -->
+    <script type="module" src="./src/utils/test-data.js"></script>
+<script type="module" src="./src/utils/test-blog-timeline-data.js"></script>
+</body>
 </body>
 
 </html>

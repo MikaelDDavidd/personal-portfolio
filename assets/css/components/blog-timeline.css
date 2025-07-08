@@ -1,0 +1,232 @@
+/**
+ * Blog Timeline - Cards ocupando 100% do espaço
+ */
+
+/* Timeline Container */
+.blog-timeline {
+  margin-bottom: 30px;
+}
+
+.blog-timeline-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.blog-timeline-title .icon-box {
+  background: var(--border-gradient-onyx);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 18px;
+}
+
+.blog-timeline-title h3 {
+  color: var(--white-2);
+  font-size: var(--fs-2);
+}
+
+/* Timeline List */
+.blog-timeline-list {
+  font-size: var(--fs-6);
+  margin-left: 65px;
+  list-style: none;
+  padding: 0;
+  max-width: none;
+}
+
+.blog-timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+  width: 100%; /* Ocupa todo o espaço disponível */
+  max-width: 100%; /* Remove limitação para melhor aproveitamento */
+}
+
+.blog-timeline-item:not(:last-child) {
+  margin-bottom: 40px;
+}
+
+/* Linha vertical */
+.blog-timeline-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: -25px;
+  left: -40px;
+  width: 1px;
+  height: calc(100% + 65px);
+  background: var(--jet);
+}
+
+/* Ponto na timeline */
+.blog-timeline-item::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -43px;
+  height: 6px;
+  width: 6px;
+  background: var(--text-gradient-yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--jet);
+}
+
+/* Post Card */
+.blog-post-card {
+  background: var(--border-gradient-onyx);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.blog-post-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.blog-post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+}
+
+/* Post Header */
+.blog-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.blog-post-title {
+  color: var(--white-2);
+  font-size: var(--fs-4);
+  font-weight: var(--fw-500);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.blog-post-card:hover .blog-post-title {
+  color: var(--orange-yellow-crayola);
+}
+
+.blog-post-date {
+  color: var(--vegas-gold);
+  font-size: var(--fs-7);
+  font-weight: var(--fw-400);
+  white-space: nowrap;
+  margin-left: 15px;
+}
+
+/* Post Content */
+.blog-post-image {
+  width: 100%;
+  height: 250px; /* Altura maior para cards maiores */
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 15px 0;
+  transition: transform 0.3s ease;
+}
+
+.blog-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-post-card:hover .blog-post-image img {
+  transform: scale(1.05);
+}
+
+.blog-post-content {
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-300);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Post Meta */
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--jet);
+}
+
+.blog-post-category {
+  background: var(--onyx);
+  color: var(--orange-yellow-crayola);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: var(--fs-8);
+  font-weight: var(--fw-500);
+}
+
+/* Loading State */
+.loading-blog-timeline {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading-blog-timeline::after {
+  content: '📝 Carregando posts...';
+  display: block;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--orange-yellow-crayola);
+  font-size: var(--fs-6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .blog-timeline-list {
+    margin-left: 45px;
+  }
+  
+  .blog-timeline-item {
+    width: 100%; /* Mantém 100% no mobile também */
+    max-width: none;
+  }
+  
+  .blog-timeline-item:not(:last-child)::before {
+    left: -30px;
+  }
+  
+  .blog-timeline-item::after {
+    left: -33px;
+  }
+  
+  .blog-post-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .blog-post-date {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-timeline-item {
+    width: 100%; /* 100% em telas pequenas também */
+  }
+}
+
+/* Para telas muito grandes, limita a largura para melhor legibilidade */
+@media (min-width: 1200px) {
+  .blog-timeline-item {
+    max-width: 900px; /* Largura máxima apenas em telas grandes */
+  }
+}
