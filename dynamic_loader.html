@@ -1,0 +1,48 @@
+<!-- 
+  ============================================
+  SISTEMA DINÂMICO - Adicionar antes do </body>
+  ============================================
+  
+  Substitua os scripts do final do index.html por este código:
+-->
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Sistema Dinâmico -->
+<script type="module" src="./src/main.js"></script>
+
+<!-- CSS adicional para sistema dinâmico -->
+<style>
+/* Loading states */
+.loading-projects {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading-projects::after {
+  content: '🔄 Carregando projetos do banco...';
+  display: block;
+  text-align: center;
+  padding: 20px;
+  color: var(--orange-yellow-crayola);
+  font-size: var(--fs-6);
+}
+
+/* Sistema híbrido funcionando */
+.app-ready .navbar-link.dynamic::after {
+  content: ' 🔥';
+  font-size: 12px;
+}
+
+/* Indicador de conexão */
+.supabase-connected::before {
+  content: '🟢 ';
+  font-size: 8px;
+}
+
+.supabase-error::before {
+  content: '🔴 ';
+  font-size: 8px;
+}
+</style>

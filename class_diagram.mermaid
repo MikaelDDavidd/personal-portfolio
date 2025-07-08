@@ -1,0 +1,214 @@
+classDiagram
+    %% CORE LAYER
+    class App {
+        -router: Router
+        -services: Map
+        -components: Map
+        +init()
+        +loadServices()
+        +loadComponents()
+        +bindEvents()
+    }
+
+    class Router {
+        -routes: Map
+        -currentRoute: string
+        +register(path, component)
+        +navigate(path)
+        +handlePopState()
+        +getCurrentRoute()
+    }
+
+    class Config {
+        +SUPABASE_URL: string
+        +SUPABASE_ANON_KEY: string
+        +API_ENDPOINTS: object
+        +STORAGE_BUCKETS: object
+    }
+
+    %% SERVICES LAYER
+    class SupabaseService {
+        -client: SupabaseClient
+        +initialize()
+        +getClient()
+        +handleError()
+    }
+
+    class AuthService {
+        -currentUser: User
+        +login(email, password)
+        +logout()
+        +getCurrentUser()
+        +isAuthenticated()
+        +onAuthStateChange()
+    }
+
+    class PortfolioService {
+        +getAllProjects()
+        +getProjectsByCategory()
+        +createProject()
+        +updateProject()
+        +deleteProject()
+        +uploadProjectImage()
+    }
+
+    class BlogService {
+        +getAllPosts()
+        +getPostBySlug()
+        +getPublishedPosts()
+        +createPost()
+        +updatePost()
+        +deletePost()
+        +uploadFeaturedImage()
+    }
+
+    class ProfileService {
+        +getProfile()
+        +updateProfile()
+        +getSkills()
+        +updateSkills()
+        +getTimeline()
+        +updateTimeline()
+    }
+
+    class UploadService {
+        +uploadFile()
+        +deleteFile()
+        +getPublicUrl()
+        +validateFile()
+        +optimizeImage()
+    }
+
+    %% COMPONENTS LAYER
+    class Component {
+        <<abstract>>
+        #element: HTMLElement
+        #props: object
+        #state: object
+        +render()
+        +bindEvents()
+        +setState()
+        +destroy()
+    }
+
+    class Button {
+        +type: string
+        +variant: string
+        +onClick: function
+        +render()
+    }
+
+    class Card {
+        +title: string
+        +content: string
+        +image: string
+        +render()
+    }
+
+    class Modal {
+        +title: string
+        +content: string
+        +isOpen: boolean
+        +open()
+        +close()
+        +render()
+    }
+
+    class Form {
+        +fields: array
+        +validation: object
+        +onSubmit: function
+        +validate()
+        +render()
+    }
+
+    %% PAGES LAYER
+    class BasePage {
+        <<abstract>>
+        #container: HTMLElement
+        #components: Map
+        +init()
+        +render()
+        +destroy()
+        +loadData()
+    }
+
+    class PortfolioPage {
+        -projects: array
+        -currentFilter: string
+        +loadProjects()
+        +filterByCategory()
+        +renderProjects()
+    }
+
+    class BlogPage {
+        -posts: array
+        +loadPosts()
+        +renderPosts()
+        +navigateToPost()
+    }
+
+    class AdminDashboard {
+        +checkAuth()
+        +loadStats()
+        +renderDashboard()
+    }
+
+    %% UTILS LAYER
+    class DOMUtils {
+        +createElement()
+        +querySelector()
+        +addEventListener()
+        +removeEventListener()
+    }
+
+    class ValidationUtils {
+        +validateEmail()
+        +validateRequired()
+        +validateFileType()
+        +sanitizeInput()
+    }
+
+    class MarkdownUtils {
+        +parseMarkdown()
+        +stripCodeBlocks()
+        +extractExcerpt()
+        +generateTOC()
+    }
+
+    class FormatUtils {
+        +formatDate()
+        +formatFileSize()
+        +slugify()
+        +truncateText()
+    }
+
+    %% RELATIONSHIPS
+    App --> Router
+    App --> SupabaseService
+    App --> AuthService
+
+    SupabaseService --> Config
+    AuthService --> SupabaseService
+    PortfolioService --> SupabaseService
+    BlogService --> SupabaseService
+    ProfileService --> SupabaseService
+    UploadService --> SupabaseService
+
+    Button --|> Component
+    Card --|> Component
+    Modal --|> Component
+    Form --|> Component
+
+    PortfolioPage --|> BasePage
+    BlogPage --|> BasePage
+    AdminDashboard --|> BasePage
+
+    PortfolioPage --> PortfolioService
+    BlogPage --> BlogService
+    AdminDashboard --> AuthService
+
+    Component --> DOMUtils
+    BasePage --> ValidationUtils
+    BlogService --> MarkdownUtils
+    Component --> FormatUtils

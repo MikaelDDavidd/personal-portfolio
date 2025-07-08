@@ -1,0 +1,207 @@
+/**
+ * Pages Responsive - About, Resume, Portfolio, Contact
+ */
+
+/*-----------------------------------*\
+  #PAGES - 580px+
+\*-----------------------------------*/
+
+@media (min-width: 580px) {
+  /* About page */
+  .about .article-title {
+    margin-bottom: 20px;
+  }
+
+  .about-text {
+    margin-bottom: 40px;
+  }
+
+  /* Service section */
+  .service-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 30px;
+  }
+
+  .service-icon-box {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
+
+  .service-content-box {
+    text-align: left;
+  }
+
+  /* Resume page */
+  .timeline-list {
+    margin-left: 65px;
+  }
+
+  .timeline-item:not(:last-child)::before {
+    left: -40px;
+  }
+
+  .timeline-item::after {
+    height: 8px;
+    width: 8px;
+    left: -43px;
+  }
+
+  .skills-item:not(:last-child) {
+    margin-bottom: 25px;
+  }
+
+  /* Portfolio & Blog */
+  .project-img {
+    border-radius: 16px;
+  }
+
+  /* Blog timeline responsiva */
+  .blog-timeline-list {
+    margin-left: 65px;
+  }
+
+  .blog-timeline-item:not(:last-child)::before {
+    left: -40px;
+  }
+
+  .blog-timeline-item::after {
+    left: -43px;
+  }
+
+  /* Contact page */
+  .mapbox {
+    height: 380px;
+    border-radius: 18px;
+  }
+
+  .input-wrapper {
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+
+  .form-input {
+    padding: 15px 20px;
+  }
+
+  textarea.form-input {
+    margin-bottom: 30px;
+  }
+
+  .form-btn {
+    --fs-6: 16px;
+    padding: 16px 20px;
+  }
+
+  .form-btn ion-icon {
+    font-size: 18px;
+  }
+}
+
+/*-----------------------------------*\
+  #PAGES - 768px+
+\*-----------------------------------*/
+
+@media (min-width: 768px) {
+  /* Portfolio page */
+  .article-title {
+    padding-bottom: 20px;
+  }
+
+  .filter-select-box {
+    display: none;
+  }
+
+  .filter-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 25px;
+    padding-left: 5px;
+    margin-bottom: 30px;
+  }
+
+  .filter-item button {
+    color: var(--light-gray);
+    font-size: var(--fs-5);
+    transition: var(--transition-1);
+  }
+
+  .filter-item button:hover {
+    color: var(--light-gray-70);
+  }
+
+  .filter-item button.active {
+    color: var(--orange-yellow-crayola);
+  }
+
+  .project-list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Blog cards responsivos */
+  .blog-timeline-list {
+    margin-left: 45px;
+  }
+
+  .blog-timeline-item:not(:last-child)::before {
+    left: -35px;
+  }
+
+  .blog-timeline-item::after {
+    left: -38px;
+  }
+
+  /* Contact page */
+  .input-wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-btn {
+    width: max-content;
+    margin-left: auto;
+  }
+}
+
+/*-----------------------------------*\
+  #PAGES - 1024px+
+\*-----------------------------------*/
+
+@media (min-width: 1024px) {
+  /* About page */
+  .service-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 25px;
+  }
+
+  /* Portfolio page */
+  .project-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Blog otimizado para desktop */
+  .blog-timeline-list {
+    margin-left: 35px;
+  }
+
+  .blog-timeline-item:not(:last-child)::before {
+    left: -25px;
+  }
+
+  .blog-timeline-item::after {
+    left: -28px;
+  }
+}
+
+/*-----------------------------------*\
+  #PAGES - 1250px+
+\*-----------------------------------*/
+
+@media (min-width: 1250px) {
+  /* Resume page */
+  .timeline-text {
+    max-width: 700px;
+  }
+}

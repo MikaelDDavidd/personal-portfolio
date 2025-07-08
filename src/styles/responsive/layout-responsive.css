@@ -1,0 +1,299 @@
+/**
+ * Layout Responsive - Replicando CSS Original
+ * Larguras progressivas por breakpoint (não 100%)
+ */
+
+/*-----------------------------------*\
+  #LAYOUT BASE - Mobile First
+\*-----------------------------------*/
+
+/* Container principal - igual ao original */
+main {
+  margin: 15px 12px;
+  margin-bottom: 75px;
+  min-width: 259px;
+}
+
+/* Sidebar e articles - base mobile */
+.sidebar,
+article {
+  background: var(--eerie-black-2);
+  border: 1px solid var(--jet);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: var(--shadow-1);
+  z-index: 1;
+}
+
+/*-----------------------------------*\
+  #LAYOUT 580px+ - Primeira expansão
+\*-----------------------------------*/
+
+@media (min-width: 580px) {
+  /* CHAVE: Largura fixa + centralização automática */
+  .sidebar,
+  article {
+    width: 520px;
+    margin-inline: auto;
+    padding: 30px;
+  }
+
+  .article-title {
+    font-weight: var(--fw-600);
+    padding-bottom: 15px;
+  }
+
+  .article-title::after {
+    width: 40px;
+    height: 5px;
+  }
+
+  .icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 18px;
+  }
+
+  /* Main layout */
+  main {
+    margin-top: 60px;
+    margin-bottom: 100px;
+  }
+
+  /* Sidebar responsivo */
+  .sidebar {
+    max-height: 180px;
+    margin-bottom: 30px;
+  }
+
+  .sidebar.active {
+    max-height: 584px;
+  }
+
+  .sidebar-info {
+    gap: 25px;
+  }
+
+  .avatar-box {
+    border-radius: 30px;
+  }
+
+  .avatar-box img {
+    width: 120px;
+  }
+
+  .info-content .name {
+    margin-bottom: 15px;
+  }
+
+  .info-content .title {
+    padding: 5px 18px;
+  }
+
+  .info_more-btn {
+    top: -30px;
+    right: -30px;
+    padding: 10px 15px;
+  }
+
+  .info_more-btn span {
+    display: block;
+    font-size: var(--fs-8);
+  }
+
+  .info_more-btn ion-icon {
+    display: none;
+  }
+
+  .separator {
+    margin: 32px 0;
+  }
+
+  .contacts-list {
+    gap: 20px;
+  }
+
+  .contact-info {
+    max-width: calc(100% - 64px);
+    width: calc(100% - 64px);
+  }
+
+  /* Navbar responsivo */
+  .navbar {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .navbar-list {
+    gap: 20px;
+  }
+
+  .navbar-link {
+    --fs-8: 14px;
+  }
+}
+
+/*-----------------------------------*\
+  #LAYOUT 768px+ - Segunda expansão
+\*-----------------------------------*/
+
+@media (min-width: 768px) {
+  /* Expandir para 700px */
+  .sidebar,
+  article {
+    width: 700px;
+  }
+
+  .has-scrollbar::-webkit-scrollbar-button {
+    width: 100px;
+  }
+
+  /* Sidebar ajustada */
+  .contacts-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 15px;
+  }
+
+  /* Navbar refinada */
+  .navbar-link {
+    --fs-8: 15px;
+  }
+}
+
+/*-----------------------------------*\
+  #LAYOUT 1024px+ - Terceira expansão
+\*-----------------------------------*/
+
+@media (min-width: 1024px) {
+  /* Expandir para 950px */
+  .sidebar,
+  article {
+    width: 950px;
+    box-shadow: var(--shadow-5);
+  }
+
+  /* Main layout desktop */
+  main {
+    margin-bottom: 60px;
+  }
+
+  .main-content {
+    position: relative;
+    width: max-content;
+    margin: auto;
+  }
+
+  /* Navbar posicionada */
+  .navbar {
+    position: absolute;
+    bottom: auto;
+    top: 0;
+    left: auto;
+    right: 0;
+    width: max-content;
+    border-radius: 0 20px;
+    padding: 0 20px;
+    box-shadow: none;
+  }
+
+  .navbar-list {
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .navbar-link {
+    font-weight: var(--fw-500);
+  }
+}
+
+/*-----------------------------------*\
+  #LAYOUT 1250px+ - Layout flex final
+\*-----------------------------------*/
+
+@media (min-width: 1250px) {
+  /* Layout flex para desktop grande */
+  .sidebar,
+  article {
+    width: auto;
+  }
+
+  article {
+    min-height: 100%;
+  }
+
+  main {
+    max-width: 1200px;
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+  }
+
+  .main-content {
+    min-width: 75%;
+    width: 75%;
+    margin: 0;
+  }
+
+  /* Sidebar sticky */
+  .sidebar {
+    position: sticky;
+    top: 60px;
+    max-height: max-content;
+    height: 100%;
+    margin-bottom: 0;
+    padding-top: 60px;
+    z-index: 1;
+  }
+
+  .sidebar-info {
+    flex-direction: column;
+  }
+
+  .avatar-box img {
+    width: 150px;
+  }
+
+  .info-content .name {
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .info-content .title {
+    margin: auto;
+  }
+
+  .info_more-btn {
+    display: none;
+  }
+
+  .sidebar-info_more {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .contacts-list {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info :is(.contact-link) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .contact-info :is(.contact-link, time, address) {
+    --fs-7: 14px;
+    font-weight: var(--fw-300);
+  }
+
+  .separator:last-of-type {
+    margin: 15px 0;
+    opacity: 0;
+  }
+
+  .social-list {
+    justify-content: center;
+  }
+}

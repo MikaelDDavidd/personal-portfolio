@@ -1,0 +1,47 @@
+/**
+ * Main CSS - Portfolio Modular
+ * Sistema 100% organizado em módulos
+ */
+
+/*-----------------------------------*\
+  #CORE STYLES (Fundação)
+\*-----------------------------------*/
+@import "./core/variables.css";
+@import "./core/reset.css";
+@import "./core/base.css";
+
+/*-----------------------------------*\
+  #LAYOUT STYLES (Estrutura)
+\*-----------------------------------*/
+@import "./layouts/sidebar.css";
+@import "./layouts/navbar.css";
+
+/*-----------------------------------*\
+  #PAGE STYLES (Páginas específicas)
+\*-----------------------------------*/
+@import "./pages/about.css";
+@import "./pages/resume.css";
+@import "./pages/portfolio.css";
+@import "./pages/contact.css";
+@import "./pages/blog.css";
+
+/*-----------------------------------*\
+  #COMPONENT STYLES (Componentes)
+\*-----------------------------------*/
+@import "./components/project-details.css";
+@import "./components/blog-timeline.css";
+@import "./components/blog-cards.css";
+
+/*-----------------------------------*\
+  #RESPONSIVE STYLES (Adaptativo)
+\*-----------------------------------*/
+@import "./responsive/variables-responsive.css";
+@import "./responsive/layout-responsive.css";
+@import "./responsive/pages-responsive.css";
+@import "./responsive/components-responsive.css";
+
+/* Main layout básico */
+main {
+  margin-bottom: 75px;
+  min-width: 259px;
+}

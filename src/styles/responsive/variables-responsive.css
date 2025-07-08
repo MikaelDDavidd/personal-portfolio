@@ -1,0 +1,33 @@
+/**
+ * Variables Responsive - Custom Properties que mudam por breakpoint
+ */
+
+/*-----------------------------------*\
+  #TYPOGRAPHY RESPONSIVE
+\*-----------------------------------*/
+
+@media (min-width: 580px) {
+  :root {
+    /* Typography ajustada para telas maiores */
+    --fs-1: 32px;
+    --fs-2: 24px;
+    --fs-3: 26px;
+    --fs-4: 18px;
+    --fs-6: 15px;
+    --fs-7: 15px;
+    --fs-8: 12px;
+  }
+}
+
+/*-----------------------------------*\
+  #SHADOWS RESPONSIVE
+\*-----------------------------------*/
+
+@media (min-width: 1024px) {
+  :root {
+    /* Shadows mais suaves em telas grandes */
+    --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.125);
+    --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.125);
+    --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.125);
+  }
+}

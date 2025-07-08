@@ -1,0 +1,124 @@
+erDiagram
+    %% ENTIDADES PRINCIPAIS
+    profiles {
+        uuid id PK
+        text name
+        text title
+        text bio
+        text avatar_url
+        text email
+        text phone
+        date birthday
+        text location
+        text facebook_url
+        text github_url
+        text instagram_url
+        text linkedin_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    projects {
+        uuid id PK
+        text title
+        text category
+        text description_markdown
+        text image_url
+        text demo_url
+        text github_url
+        boolean is_active
+        integer order_index
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    blog_posts {
+        uuid id PK
+        text title
+        text slug UK
+        text excerpt
+        text content_markdown
+        text featured_image_url
+        text category
+        text[] tags
+        boolean is_published
+        timestamp publish_date
+        integer view_count
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    skills {
+        uuid id PK
+        text name
+        integer percentage
+        text category
+        integer order_index
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    timeline_items {
+        uuid id PK
+        text type
+        text title
+        text institution
+        text period
+        text description
+        integer order_index
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    certificates {
+        uuid id PK
+        text name
+        text image_url
+        text file_url
+        integer order_index
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    linkedin_posts {
+        uuid id PK
+        text post_url
+        text embed_code
+        boolean is_active
+        integer order_index
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    %% ENTIDADES DE SUPORTE
+    project_images {
+        uuid id PK
+        uuid project_id FK
+        text image_url
+        text alt_text
+        integer order_index
+        timestamp created_at
+    }
+
+    blog_comments {
+        uuid id PK
+        uuid post_id FK
+        text author_name
+        text author_email
+        text content
+        boolean is_approved
+        timestamp created_at
+    }
+
+    contact_messages {
+        uuid id PK
+        text name
+        text email
+        text message
+        boolean is_read
+        timestamp created_at
+    }
+
+    %% RELACIONAMENTOS
+    projects ||--o{ project_images : "has multiple"
+    blog_posts ||--o{ blog_comments : "receives"

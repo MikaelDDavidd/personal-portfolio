@@ -1,0 +1,75 @@
+graph TB
+    subgraph "👤 ATORES"
+        U[Usuário Público]
+        A[Administrador]
+    end
+
+    subgraph "🌐 CASOS DE USO - PÚBLICO"
+        UC1[Visualizar Portfólio]
+        UC2[Ler Blog Posts]
+        UC3[Ver Informações Pessoais]
+        UC4[Download Certificados]
+        UC5[Enviar Mensagem]
+        UC6[Navegar por Projetos]
+        UC7[Filtrar Projetos por Categoria]
+    end
+
+    subgraph "🔒 CASOS DE USO - ADMIN"
+        UC8[Fazer Login/Logout]
+        UC9[Gerenciar Projetos]
+        UC10[Gerenciar Blog Posts]
+        UC11[Editar Perfil Pessoal]
+        UC12[Gerenciar Skills]
+        UC13[Gerenciar Timeline]
+        UC14[Upload de Arquivos]
+        UC15[Gerenciar Certificados]
+        UC16[Preview Markdown]
+        UC17[Configurar LinkedIn Embeds]
+    end
+
+    subgraph "🔄 CASOS DE USO ESTENDIDOS"
+        UC18[Validar Autenticação]
+        UC19[Processar Markdown]
+        UC20[Otimizar Imagens]
+        UC21[Gerar SEO Meta Tags]
+    end
+
+    %% Conexões Usuário Público
+    U --> UC1
+    U --> UC2
+    U --> UC3
+    U --> UC4
+    U --> UC5
+    U --> UC6
+    U --> UC7
+
+    %% Conexões Administrador
+    A --> UC8
+    A --> UC9
+    A --> UC10
+    A --> UC11
+    A --> UC12
+    A --> UC13
+    A --> UC14
+    A --> UC15
+    A --> UC16
+    A --> UC17
+
+    %% Extensões e Includes
+    UC8 -.-> UC18
+    UC9 -.-> UC19
+    UC10 -.-> UC19
+    UC14 -.-> UC20
+    UC2 -.-> UC21
+    UC6 -.-> UC21
+
+    %% Estilos
+    classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef public fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef admin fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef extended fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+
+    class U,A actor
+    class UC1,UC2,UC3,UC4,UC5,UC6,UC7 public
+    class UC8,UC9,UC10,UC11,UC12,UC13,UC14,UC15,UC16,UC17 admin
+    class UC18,UC19,UC20,UC21 extended

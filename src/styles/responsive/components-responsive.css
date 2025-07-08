@@ -1,0 +1,231 @@
+/**
+ * Components Responsive - Toast, Modals, Testimonials, Clients
+ */
+
+/*-----------------------------------*\
+  #TOAST (não é media query)
+\*-----------------------------------*/
+
+.toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+  opacity: 0;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*-----------------------------------*\
+  #SCROLLBAR CUSTOM - 1250px+
+\*-----------------------------------*/
+
+@media (min-width: 1250px) {
+  body::-webkit-scrollbar {
+    width: 20px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: var(--smoky-black);
+  }
+
+  body::-webkit-scrollbar-thumb {
+    border: 5px solid var(--smoky-black);
+    background: hsla(0, 0%, 100%, 0.1);
+    border-radius: 20px;
+    box-shadow: inset 1px 1px 0 hsla(0, 0%, 100%, 0.11),
+      inset -1px -1px 0 hsla(0, 0%, 100%, 0.11);
+  }
+
+  body::-webkit-scrollbar-thumb:hover {
+    background: hsla(0, 0%, 100%, 0.15);
+  }
+
+  body::-webkit-scrollbar-button {
+    height: 60px;
+  }
+}
+
+/*-----------------------------------*\
+  #CLIENTS COMPONENT
+\*-----------------------------------*/
+
+@media (min-width: 450px) {
+  .clients-item {
+    min-width: calc(33.33% - 10px);
+  }
+
+  .project-img {
+    height: auto;
+  }
+}
+
+@media (min-width: 580px) {
+  /* Clients responsive */
+  .clients-list {
+    gap: 50px;
+    margin: 0 -30px;
+    padding: 45px;
+    scroll-padding-inline: 45px;
+  }
+
+  .clients-item {
+    min-width: calc(33.33% - 35px);
+    position: relative;
+  }
+
+  .client-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .client-item-icon-box {
+    --scale: 0.8;
+    background: var(--jet);
+    color: var(--orange-yellow-crayola);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--scale));
+    font-size: 18px;
+    padding: 18px;
+    border-radius: 12px;
+    opacity: 0;
+    z-index: 1;
+    transition: var(--transition-1);
+  }
+
+  .client-img-wrapper:hover .client-item-icon-box {
+    --scale: 1;
+    opacity: 1;
+  }
+
+  .client-item-icon-box ion-icon {
+    --ionicon-stroke-width: 50px;
+  }
+
+  .clients-item img {
+    width: 100%;
+    transition: var(--transition-1);
+  }
+
+  .client-img-wrapper:hover img {
+    transform: scale(1.1);
+    filter: grayscale(100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .clients-item {
+    min-width: calc(25% - 38px);
+  }
+}
+
+/*-----------------------------------*\
+  #TESTIMONIALS COMPONENT
+\*-----------------------------------*/
+
+@media (min-width: 580px) {
+  /* Testimonials */
+  .testimonials-title {
+    margin-bottom: 25px;
+  }
+
+  .testimonials-list {
+    gap: 30px;
+    margin: 0 -30px;
+    padding: 30px;
+    padding-bottom: 35px;
+  }
+
+  .content-card {
+    padding: 30px;
+    padding-top: 25px;
+  }
+
+  .testimonials-avatar-box {
+    transform: translate(30px, -30px);
+    border-radius: 20px;
+  }
+
+  .testimonials-avatar-box img {
+    width: 80px;
+  }
+
+  .testimonials-item-title {
+    margin-bottom: 10px;
+    margin-left: 95px;
+  }
+
+  .testimonials-text {
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+  }
+
+  /* Testimonials modal */
+  .modal-container {
+    padding: 20px;
+  }
+
+  .testimonials-modal {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 25px;
+    padding: 30px;
+    border-radius: 20px;
+  }
+
+  .modal-img-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-avatar-box {
+    border-radius: 18px;
+    margin-bottom: 0;
+  }
+
+  .modal-avatar-box img {
+    width: 65px;
+  }
+
+  .modal-img-wrapper > img {
+    display: block;
+    flex-grow: 1;
+    width: 35px;
+  }
+}
+
+@media (min-width: 768px) {
+  .testimonials-modal {
+    gap: 35px;
+    max-width: 680px;
+  }
+
+  .modal-avatar-box img {
+    width: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials-item {
+    min-width: calc(50% - 15px);
+  }
+}
