@@ -1,0 +1,68 @@
+/*-----------------------------------*\
+  #BASE STYLES - Admin Panel
+\*-----------------------------------*/
+
+/*-----------------------------------*\
+  #UTILITIES
+\*-----------------------------------*/
+
+.hidden {
+  display: none !important;
+}
+
+.app-ready {
+  /* Class adicionada quando app inicializa */
+}
+
+/*-----------------------------------*\
+  #LAYOUT BASE
+\*-----------------------------------*/
+
+.admin-panel {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-layout {
+  display: flex;
+  flex: 1;
+}
+
+/*-----------------------------------*\
+  #CONTENT AREAS
+\*-----------------------------------*/
+
+.admin-content {
+  flex: 1;
+  padding: 30px;
+  background: var(--eerie-black-1);
+}
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-header h2 {
+  color: var(--white-2);
+  font-size: var(--fs-1);
+  font-weight: var(--fw-600);
+}
+
+.page-body {
+  background: var(--eerie-black-2);
+  border: 1px solid var(--jet);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: var(--shadow-2);
+}
+
+/*-----------------------------------*\
+  #RESPONSIVE BASE
+\*-----------------------------------*/
+
+@media (max-width: 768px) {
+  .admin-content {
+    padding: 20px;
+  }
+}

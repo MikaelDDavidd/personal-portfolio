@@ -1,0 +1,77 @@
+/*-----------------------------------*\
+  #LOADING COMPONENT
+\*-----------------------------------*/
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--jet);
+  border-top: 3px solid var(--orange-yellow-crayola);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}
+
+/*-----------------------------------*\
+  #LOADING VARIANTS
+\*-----------------------------------*/
+
+.loading-small {
+  position: relative;
+  width: auto;
+  height: auto;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.loading-small .loading-spinner {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.loading-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loading-inline .loading-spinner {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/*-----------------------------------*\
+  #LOADING STATES
+\*-----------------------------------*/
+
+.loading-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.loading-transparent {
+  background: transparent;
+}

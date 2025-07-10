@@ -1,0 +1,29 @@
+/**
+ * Main CSS - Admin Panel Modular
+ * Sistema organizado em módulos (igual portfolio)
+ */
+
+/*-----------------------------------*\
+  #CORE STYLES (Fundação)
+\*-----------------------------------*/
+@import "./core/variables.css";
+@import "./core/reset.css";
+@import "./core/base.css";
+
+/*-----------------------------------*\
+  #COMPONENT STYLES (Componentes)
+\*-----------------------------------*/
+@import "./components/auth.css";
+@import "./components/header.css";
+@import "./components/sidebar.css";
+@import "./components/toast.css";
+@import "./components/loading.css";
+@import "./components/projects.css";
+@import "./components/project-modal.css";
+@import "./components/blog-modal.css";
+
+/*-----------------------------------*\
+  #PAGE STYLES (Páginas específicas)
+\*-----------------------------------*/
+@import "./pages/dashboard.css";
+@import "./pages/auth.css";

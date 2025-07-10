@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Portfolio</title>
+
+    <!--
+    - favicon
+    -->
+    <link rel="shortcut icon" href="../portfolio/assets/images/logo.ico" type="image/x-icon" />
+
+    <!--
+    - custom css link
+    -->
+    <link rel="stylesheet" href="./src/styles/main.css">
+
+    <!--
+    - google font link
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Auth overlay (login) -->
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Admin Panel</h1>
+                <p>Faça login para acessar o painel</p>
+            </div>
+            <form id="login-form" class="auth-form">
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <ion-icon name="log-in-outline"></ion-icon>
+                    Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main admin panel -->
+    <div id="admin-panel" class="admin-panel hidden">
+        
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-content">
+                <h1 class="header-title">Admin Panel</h1>
+                <div class="header-actions">
+                    <span class="user-info" id="user-email"></span>
+                    <button id="logout-btn" class="logout-btn">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main layout -->
+        <div class="admin-layout">
+            
+            <!-- Sidebar -->
+            <aside class="admin-sidebar">
+                <nav class="sidebar-nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-page="dashboard">
+                                <ion-icon name="grid-outline"></ion-icon>
+                                Dashboard
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-page="projects">
+                                <ion-icon name="folder-outline"></ion-icon>
+                                Projetos
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-page="blog">
+                                <ion-icon name="document-text-outline"></ion-icon>
+                                Blog
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-page="profile">
+                                <ion-icon name="person-outline"></ion-icon>
+                                Perfil
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Content -->
+            <main class="admin-content">
+                <div id="page-content">
+                    <!-- Conteúdo dinâmico carregado aqui -->
+                </div>
+            </main>
+
+        </div>
+
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading" class="loading hidden">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <!-- Main app -->
+    <script type="module" src="./src/main.js"></script>
+
+</body>
+
+</html>

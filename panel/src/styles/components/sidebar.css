@@ -1,0 +1,100 @@
+/*-----------------------------------*\
+  #SIDEBAR COMPONENT
+\*-----------------------------------*/
+
+.admin-sidebar {
+  width: var(--sidebar-width);
+  background: var(--eerie-black-2);
+  border-right: 1px solid var(--jet);
+  padding: 20px 0;
+  box-shadow: var(--shadow-1);
+}
+
+.sidebar-nav {
+  padding: 0 20px;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  /* Container para cada item */
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-400);
+  transition: var(--transition-1);
+  width: 100%;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: transparent;
+  z-index: -1;
+  transition: var(--transition-1);
+}
+
+.nav-link:hover {
+  background: var(--onyx);
+  color: var(--white-2);
+}
+
+.nav-link.active {
+  background: var(--border-gradient-onyx);
+  color: var(--orange-yellow-crayola);
+  font-weight: var(--fw-500);
+}
+
+.nav-link.active::before {
+  background: var(--bg-gradient-jet);
+}
+
+.nav-link ion-icon {
+  font-size: 18px;
+  --ionicon-stroke-width: 35px;
+}
+
+/*-----------------------------------*\
+  #SIDEBAR RESPONSIVE
+\*-----------------------------------*/
+
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 200px;
+  }
+  
+  .nav-link {
+    font-size: var(--fs-7);
+    padding: 10px 12px;
+  }
+  
+  .nav-link ion-icon {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 180px;
+  }
+  
+  .sidebar-nav {
+    padding: 0 15px;
+  }
+}

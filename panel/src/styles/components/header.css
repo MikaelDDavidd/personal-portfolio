@@ -1,0 +1,100 @@
+/*-----------------------------------*\
+  #HEADER COMPONENT
+\*-----------------------------------*/
+
+.admin-header {
+  background: var(--eerie-black-2);
+  border-bottom: 1px solid var(--jet);
+  padding: 0 20px;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-title {
+  color: var(--white-2);
+  font-size: var(--fs-2);
+  font-weight: var(--fw-600);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  color: var(--light-gray);
+  font-size: var(--fs-7);
+  font-weight: var(--fw-400);
+}
+
+.logout-btn {
+  background: var(--border-gradient-onyx);
+  color: var(--orange-yellow-crayola);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: var(--fs-7);
+  font-weight: var(--fw-500);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-1);
+  position: relative;
+  z-index: 1;
+}
+
+.logout-btn::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: -1;
+  transition: var(--transition-1);
+}
+
+.logout-btn:hover {
+  background: var(--bg-gradient-yellow-1);
+}
+
+.logout-btn:hover::before {
+  background: var(--bg-gradient-yellow-2);
+}
+
+.logout-btn:hover {
+  color: var(--smoky-black);
+}
+
+.logout-btn ion-icon {
+  font-size: 14px;
+}
+
+/*-----------------------------------*\
+  #HEADER RESPONSIVE
+\*-----------------------------------*/
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 0 15px;
+  }
+  
+  .header-title {
+    font-size: var(--fs-3);
+  }
+  
+  .user-info {
+    display: none;
+  }
+}

@@ -1,0 +1,67 @@
+/*-----------------------------------*\
+  #AUTH PAGE STYLES
+\*-----------------------------------*/
+
+/* Specific styles for auth page layout if needed */
+/* Most auth styles are in components/auth.css */
+
+.auth-page {
+  /* Future auth page specific styles */
+}
+
+/*-----------------------------------*\
+  #LOGIN VARIANTS
+\*-----------------------------------*/
+
+.auth-overlay.login-mode {
+  /* Specific login mode styles if needed */
+}
+
+.auth-overlay.register-mode {
+  /* Future register mode styles */
+}
+
+/*-----------------------------------*\
+  #AUTH ANIMATIONS
+\*-----------------------------------*/
+
+.auth-container {
+  animation: authSlideIn 0.3s ease-out;
+}
+
+@keyframes authSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*-----------------------------------*\
+  #AUTH STATES
+\*-----------------------------------*/
+
+.auth-form.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.auth-form.error {
+  animation: authShake 0.5s ease-in-out;
+}
+
+@keyframes authShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
