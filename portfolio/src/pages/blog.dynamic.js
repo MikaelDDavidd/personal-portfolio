@@ -21,40 +21,50 @@ class BlogDynamic {
   constructor() {
     this.posts = [];
     this.blogService = null;
+    this.supabaseService = null;
   }
 
   async init() {
     console.log("📝 Inicializando blog dinâmico...");
 
     try {
-      // Aguardar Supabase
-      const supabaseService = await waitForSupabase();
+      // Aguardar Supabase estar pronto
+      this.supabaseService = await waitForSupabase();
 
-      if (!supabaseService) {
+      if (!this.supabaseService) {
         console.log("⚠️ Supabase não disponível, mantendo estático");
         return;
       }
 
+      // Mostrar loading
+      this.showLoading(true);
+
       // Criar BlogService
-      this.blogService = new BlogService(supabaseService);
+      this.blogService = new BlogService(this.supabaseService);
 
       // Carregar posts
       await this.loadPosts();
 
-      // Renderizar se temos posts
+      // Renderizar posts
       if (this.posts.length > 0) {
         this.renderPosts();
         console.log("✅ Blog dinâmico carregado!");
       } else {
         console.log("📊 Nenhum post encontrado, mantendo estático");
       }
+
+      // Esconder loading
+      this.showLoading(false);
+
     } catch (error) {
       console.error("❌ Erro no blog dinâmico:", error);
+      this.showLoading(false);
     }
   }
 
   async loadPosts() {
     try {
+      console.log("🔄 Carregando posts do banco...");
       this.posts = await this.blogService.getBlogPosts();
       console.log(`📊 ${this.posts.length} posts carregados`);
     } catch (error) {
@@ -70,20 +80,14 @@ class BlogDynamic {
       return;
     }
 
-    // Loading state
-    postsList.classList.add("loading-posts");
-
-    // Gerar HTML
+    // Gerar HTML dos posts
     const postsHTML = this.posts
       .map((post) => this.createPostHTML(post))
       .join("");
 
     // Atualizar DOM
-    setTimeout(() => {
-      postsList.innerHTML = postsHTML;
-      postsList.classList.remove("loading-posts");
-      this.setupPostEvents();
-    }, 500);
+    postsList.innerHTML = postsHTML;
+    this.setupPostEvents();
   }
 
   createPostHTML(post) {
@@ -102,7 +106,7 @@ class BlogDynamic {
           }
           <div class="blog-content">
             <div class="blog-meta">
-              <p class="blog-category">${post.category}</p>
+              <p class="blog-category">${post.category || 'Artigo'}</p>
               <span class="dot"></span>
               <time datetime="${post.publish_date}">${date}</time>
             </div>
@@ -126,10 +130,92 @@ class BlogDynamic {
       });
     });
 
-    // Adicionar cursor pointer
+    // Adicionar estilos hover apenas uma vez
+    if (!document.getElementById('blog-card-hover-styles')) {
+      const style = document.createElement("style");
+      style.id = 'blog-card-hover-styles';
+      style.textContent = `
+        .blog-card { 
+          cursor: pointer; 
+          transition: transform 0.3s ease; 
+        } 
+        .blog-card:hover { 
+          transform: translateY(-2px); 
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  // ============================================
+  // LOADING (igual ao about.dynamic.js)
+  // ============================================
+  showLoading(show) {
+    const blogSection = document.querySelector("article.blog");
+    if (!blogSection) return;
+
+    if (show) {
+      if (!blogSection.querySelector(".blog-loading-overlay")) {
+        const overlay = document.createElement("div");
+        overlay.className = "blog-loading-overlay";
+        overlay.innerHTML = `
+          <div class="blog-loading-spinner"></div>
+          <p>Carregando posts...</p>
+        `;
+        blogSection.appendChild(overlay);
+        this.addLoadingCSS();
+      }
+    } else {
+      const overlay = blogSection.querySelector(".blog-loading-overlay");
+      if (overlay) {
+        overlay.remove();
+      }
+    }
+  }
+
+  addLoadingCSS() {
+    if (document.querySelector("#blog-cards-loading-css")) return;
+
     const style = document.createElement("style");
-    style.textContent =
-      ".blog-card { cursor: pointer; transition: transform 0.3s ease; } .blog-card:hover { transform: translateY(-2px); }";
+    style.id = "blog-cards-loading-css";
+    style.textContent = `
+      .blog-loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(2px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        border-radius: var(--radius-20);
+      }
+
+      .blog-loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--border-gradient-onyx);
+        border-top: 4px solid var(--orange-yellow-crayola);
+        border-radius: 50%;
+        animation: blog-cards-spin 1s linear infinite;
+        margin-bottom: 1rem;
+      }
+
+      .blog-loading-overlay p {
+        color: var(--light-gray-70);
+        font-size: var(--fs-6);
+        margin: 0;
+      }
+
+      @keyframes blog-cards-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    `;
     document.head.appendChild(style);
   }
 }

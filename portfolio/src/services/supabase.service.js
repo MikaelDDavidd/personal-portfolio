@@ -1,5 +1,5 @@
 /**
- * SupabaseService - Conexão simples com o banco
+ * SupabaseService - Conexão de LEITURA para o portfólio público
  */
 
 // Importar config (quando existir)
@@ -44,7 +44,7 @@ class SupabaseService {
   }
 
   // ============================================
-  // PROJECTS
+  // PROJECTS (LEITURA)
   // ============================================
   async getProjects() {
     if (!this.isConnected) {
@@ -71,33 +71,8 @@ class SupabaseService {
     }
   }
 
-  async createProject(project) {
-    const { data, error } = await this.client
-      .from("projects")
-      .insert(project)
-      .select();
-
-    return { data, error };
-  }
-
-  async updateProject(id, updates) {
-    const { data, error } = await this.client
-      .from("projects")
-      .update(updates)
-      .eq("id", id)
-      .select();
-
-    return { data, error };
-  }
-
-  async deleteProject(id) {
-    const { error } = await this.client.from("projects").delete().eq("id", id);
-
-    return { error };
-  }
-
   // ============================================
-  // BLOG POSTS
+  // BLOG POSTS (LEITURA)
   // ============================================
   async getBlogPosts() {
     const { data, error } = await this.client
@@ -121,7 +96,7 @@ class SupabaseService {
   }
 
   // ============================================
-  // PROFILE
+  // PROFILE (LEITURA)
   // ============================================
   async getProfile() {
     const { data, error } = await this.client
@@ -134,7 +109,20 @@ class SupabaseService {
   }
 
   // ============================================
-  // SKILLS
+  // SERVICES (LEITURA)
+  // ============================================
+  async getServices() {
+    const { data, error } = await this.client
+      .from("services")
+      .select("*")
+      .eq("is_active", true)
+      .order("order_index");
+
+    return error ? [] : data;
+  }
+
+  // ============================================
+  // SKILLS (LEITURA)
   // ============================================
   async getSkills() {
     const { data, error } = await this.client
@@ -146,7 +134,7 @@ class SupabaseService {
   }
 
   // ============================================
-  // TIMELINE
+  // TIMELINE (LEITURA)
   // ============================================
   async getTimeline() {
     const { data, error } = await this.client
@@ -158,7 +146,7 @@ class SupabaseService {
   }
 
   // ============================================
-  // CERTIFICATES
+  // CERTIFICATES (LEITURA)
   // ============================================
   async getCertificates() {
     const { data, error } = await this.client
@@ -170,7 +158,7 @@ class SupabaseService {
   }
 
   // ============================================
-  // CONTACT MESSAGES
+  // CONTACT MESSAGES (ÚNICA ESCRITA)
   // ============================================
   async saveContactMessage(message) {
     const { data, error } = await this.client
@@ -180,30 +168,151 @@ class SupabaseService {
 
     return { data, error };
   }
-
   // ============================================
-  // AUTH
+  // ANALYTICS - Tracking de acessos
   // ============================================
-  async login(email, password) {
-    const { data, error } = await this.client.auth.signInWithPassword({
-      email,
-      password,
-    });
 
-    return { data, error };
+  async trackPageVisit(pageData) {
+    try {
+      const analyticsData = {
+        page_name: pageData.page,
+        session_id: pageData.sessionId,
+        user_agent: pageData.userAgent,
+        referrer: pageData.referrer,
+        screen_resolution: pageData.screenResolution,
+        language: pageData.language,
+        timezone: pageData.timezone,
+        is_mobile: pageData.isMobile,
+        visited_at: new Date().toISOString(),
+      };
+
+      const { data, error } = await this.client
+        .from("analytics")
+        .insert(analyticsData)
+        .select();
+
+      if (error) {
+        console.warn("Erro ao registrar analytics:", error);
+        return { data: null, error };
+      }
+
+      return { data, error: null };
+    } catch (error) {
+      console.warn("Erro no tracking:", error);
+      return { data: null, error };
+    }
   }
 
-  async logout() {
-    const { error } = await this.client.auth.signOut();
-    return { error };
+  // Obter estatísticas gerais para o admin
+  async getAnalyticsStats(days = 30) {
+    try {
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+
+      const { data, error } = await this.client
+        .from("analytics")
+        .select("*")
+        .gte("visited_at", startDate.toISOString())
+        .order("visited_at", { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error("Erro ao carregar analytics:", error);
+      return [];
+    }
   }
 
-  async getCurrentUser() {
-    const {
-      data: { user },
-      error,
-    } = await this.client.auth.getUser();
-    return { user, error };
+  // Obter visitas por página
+  async getPageViews(days = 30) {
+    try {
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+
+      const { data, error } = await this.client
+        .from("analytics")
+        .select("page_name, visited_at")
+        .gte("visited_at", startDate.toISOString());
+
+      if (error) throw error;
+
+      // Agrupar por página
+      const pageStats = {};
+      data.forEach((visit) => {
+        if (!pageStats[visit.page_name]) {
+          pageStats[visit.page_name] = 0;
+        }
+        pageStats[visit.page_name]++;
+      });
+
+      return Object.entries(pageStats)
+        .map(([page, views]) => ({ page, views }))
+        .sort((a, b) => b.views - a.views);
+    } catch (error) {
+      console.error("Erro ao carregar page views:", error);
+      return [];
+    }
+  }
+
+  // Obter estatísticas diárias usando a função SQL
+  async getDailyAnalytics(days = 30) {
+    try {
+      const { data, error } = await this.client.rpc("get_daily_analytics", {
+        start_date: new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
+      });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error("Erro ao carregar analytics diários:", error);
+      return [];
+    }
+  }
+
+  // Obter dados para gráficos (últimos 7 dias)
+  async getAnalyticsChart() {
+    try {
+      const { data, error } = await this.client.rpc("get_daily_analytics", {
+        start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
+      });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error("Erro ao carregar dados do gráfico:", error);
+      return [];
+    }
+  }
+
+  // Obter dispositivos mais usados
+  async getDeviceStats(days = 30) {
+    try {
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+
+      const { data, error } = await this.client
+        .from("analytics")
+        .select("is_mobile, user_agent")
+        .gte("visited_at", startDate.toISOString());
+
+      if (error) throw error;
+
+      const mobileCount = data.filter((visit) => visit.is_mobile).length;
+      const desktopCount = data.length - mobileCount;
+
+      return {
+        mobile: mobileCount,
+        desktop: desktopCount,
+        total: data.length,
+      };
+    } catch (error) {
+      console.error("Erro ao carregar stats de dispositivos:", error);
+      return { mobile: 0, desktop: 0, total: 0 };
+    }
   }
 }
 

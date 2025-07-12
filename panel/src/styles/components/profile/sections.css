@@ -1,0 +1,23 @@
+/*-----------------------------------*\
+  #PROFILE SECTIONS LAYOUT
+\*-----------------------------------*/
+
+.profile-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.profile-sections .section-container:last-child {
+  margin-bottom: 0;
+}
+
+/*-----------------------------------*\
+  #RESPONSIVE
+\*-----------------------------------*/
+
+@media (max-width: 768px) {
+  .profile-sections {
+    gap: 20px;
+  }
+}

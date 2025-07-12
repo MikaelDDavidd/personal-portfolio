@@ -2,8 +2,6 @@
  * Resume Dinâmico - Carrega skills, timeline e certificados do Supabase
  */
 
-import ProfileService from "../services/profile.service.js";
-
 // Aguardar sistema estar pronto
 async function waitForSupabase() {
   let attempts = 0;
@@ -22,7 +20,7 @@ class ResumeDynamic {
     this.skills = [];
     this.timeline = [];
     this.certificates = [];
-    this.profileService = null;
+    this.supabaseService = null;
   }
 
   async init() {
@@ -30,15 +28,15 @@ class ResumeDynamic {
 
     try {
       // Aguardar Supabase estar pronto
-      const supabaseService = await waitForSupabase();
+      this.supabaseService = await waitForSupabase();
 
-      if (!supabaseService) {
+      if (!this.supabaseService) {
         console.log("⚠️ Supabase não disponível, mantendo estático");
         return;
       }
 
-      // Criar ProfileService
-      this.profileService = new ProfileService(supabaseService);
+      // Adicionar CSS para certificados (sem quebrar scroll)
+      this.addCertificateCSS();
 
       // Carregar todos os dados
       await this.loadData();
@@ -59,13 +57,105 @@ class ResumeDynamic {
     }
   }
 
+  addCertificateCSS() {
+    if (document.querySelector("#certificate-scroll-css")) return;
+
+    const style = document.createElement("style");
+    style.id = "certificate-scroll-css";
+    style.textContent = `
+      /* Garantir que o scroll horizontal funcione */
+      .clients-list {
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+        margin: 0 -15px !important;
+        padding: 25px !important;
+        padding-bottom: 25px !important;
+        overflow-x: auto !important;
+        scroll-behavior: smooth !important;
+        overscroll-behavior-inline: contain !important;
+        scroll-snap-type: inline mandatory !important;
+        scroll-padding-inline: 25px !important;
+      }
+
+      .clients-item {
+        min-width: 50% !important;
+        scroll-snap-align: start !important;
+        flex-shrink: 0 !important;
+      }
+
+      .clients-item img {
+        width: 100% !important;
+        height: 120px !important;
+        object-fit: cover !important;
+        border-radius: 8px !important;
+        filter: grayscale(0) !important;
+        transition: var(--transition-1) !important;
+      }
+
+      .clients-item img:hover {
+        filter: grayscale(1) !important;
+        transform: scale(1.1) !important;
+      }
+
+      .client-img-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      .client-item-icon-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        background: var(--jet);
+        color: var(--orange-yellow-crayola);
+        font-size: 18px;
+        padding: 12px;
+        border-radius: 8px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 2;
+      }
+
+      .client-img-wrapper:hover .client-item-icon-box {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      /* Responsive para telas maiores */
+      @media (min-width: 580px) {
+        .clients-list {
+          gap: 30px !important;
+          margin: 0 -30px !important;
+          padding: 45px !important;
+          scroll-padding-inline: 45px !important;
+        }
+
+        .clients-item {
+          min-width: calc(33.33% - 20px) !important;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .clients-item {
+          min-width: calc(25% - 22px) !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   async loadData() {
     try {
       // Carregar todos os dados em paralelo
       const [skills, timeline, certificates] = await Promise.all([
-        this.profileService.getSkills(),
-        this.profileService.getTimeline(),
-        this.profileService.getCertificates(),
+        this.supabaseService.getSkills(),
+        this.supabaseService.getTimeline(),
+        this.supabaseService.getCertificates(),
       ]);
 
       this.skills = skills;
@@ -91,8 +181,10 @@ class ResumeDynamic {
     if (this.timeline.length === 0) return;
 
     // Separar por tipo
-    const education = this.profileService.getTimelineByType("education");
-    const experience = this.profileService.getTimelineByType("experience");
+    const education = this.timeline.filter((item) => item.type === "education");
+    const experience = this.timeline.filter(
+      (item) => item.type === "experience"
+    );
 
     // Renderizar educação
     if (education.length > 0) {
@@ -129,7 +221,7 @@ class ResumeDynamic {
   }
 
   createTimelineItemHTML(item) {
-    const period = this.profileService.formatPeriod(item.period);
+    const period = this.formatPeriod(item.period);
 
     return `
       <li class="timeline-item">
@@ -138,6 +230,24 @@ class ResumeDynamic {
         <p class="timeline-text">${item.description}</p>
       </li>
     `;
+  }
+
+  formatPeriod(period) {
+    if (!period) return "";
+
+    // Se já estiver formatado, retornar como está
+    if (typeof period === "string") return period;
+
+    // Se for objeto com start_date e end_date
+    if (period.start_date) {
+      const start = new Date(period.start_date).getFullYear();
+      const end = period.end_date
+        ? new Date(period.end_date).getFullYear()
+        : "Present";
+      return `${start} — ${end}`;
+    }
+
+    return period.toString();
   }
 
   renderSkills() {
@@ -181,7 +291,12 @@ class ResumeDynamic {
     const clientsList = document.querySelector(".clients-list");
     if (!clientsList) return;
 
-    // Gerar HTML dos certificados
+    // Garantir que tem a classe has-scrollbar
+    if (!clientsList.classList.contains('has-scrollbar')) {
+      clientsList.classList.add('has-scrollbar');
+    }
+
+    // Usar image_url se existir, senão fallback para placeholder
     const certificatesHTML = this.certificates
       .map((cert) => this.createCertificateHTML(cert))
       .join("");
@@ -191,18 +306,19 @@ class ResumeDynamic {
 
     // Setup eventos de download
     this.setupCertificateEvents();
+
+    console.log(`🎨 ${this.certificates.length} certificados renderizados com scroll horizontal`);
   }
 
   createCertificateHTML(certificate) {
-    const downloadUrl = this.profileService.getCertificateUrl(
-      certificate.file_url
-    );
-
+    // Usar image_url se existir, senão placeholder
+    const imageUrl = certificate.image_url || 'https://via.placeholder.com/200x120/333/fff?text=Certificate';
+    
     return `
       <li class="clients-item">
-        <a href="#" data-certificate="${certificate.file_url}">
+        <a href="#" data-certificate="${certificate.file_url}" data-name="${certificate.name}">
           <div class="client-img-wrapper">
-            <img src="${certificate.image_url}" alt="${certificate.name}">
+            <img src="${imageUrl}" alt="${certificate.name}" loading="lazy">
             <div class="client-item-icon-box">
               <ion-icon name="download-outline"></ion-icon>
             </div>
@@ -222,19 +338,19 @@ class ResumeDynamic {
         e.preventDefault();
 
         const certificateFile = link.getAttribute("data-certificate");
-        const downloadUrl =
-          this.profileService.getCertificateUrl(certificateFile);
+        const certificateName = link.getAttribute("data-name") || "certificate";
 
-        if (downloadUrl) {
+        if (certificateFile) {
           // Criar link temporário para download
           const tempLink = document.createElement("a");
-          tempLink.href = downloadUrl;
-          tempLink.download = certificateFile;
+          tempLink.href = certificateFile;
+          tempLink.download = `${certificateName}.pdf`;
+          tempLink.target = "_blank";
           document.body.appendChild(tempLink);
           tempLink.click();
           document.body.removeChild(tempLink);
 
-          console.log(`📄 Download iniciado: ${certificateFile}`);
+          console.log(`📄 Download iniciado: ${certificateName}`);
         }
       });
     });

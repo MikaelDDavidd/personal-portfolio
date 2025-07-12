@@ -1,8 +1,6 @@
 /**
- * About Dinâmico - Carrega dados de perfil do Supabase
+ * About Dinâmico - Carrega dados do perfil (About + Sidebar) diretamente do Supabase
  */
-
-import ProfileService from "../services/profile.service.js";
 
 // Aguardar sistema estar pronto
 async function waitForSupabase() {
@@ -21,44 +19,60 @@ class AboutDynamic {
   constructor() {
     this.profile = null;
     this.services = [];
-    this.profileService = null;
+    this.supabaseService = null;
   }
 
   async init() {
-    console.log("👤 Inicializando about dinâmico...");
+    console.log("👤 === INICIALIZANDO ABOUT + SIDEBAR ===");
 
     try {
       // Aguardar Supabase estar pronto
-      const supabaseService = await waitForSupabase();
+      this.supabaseService = await waitForSupabase();
 
-      if (!supabaseService) {
-        console.log("⚠️ Supabase não disponível, mantendo estático");
+      if (!this.supabaseService) {
+        console.log("⚠️ Supabase não disponível");
         return;
       }
 
-      // Criar ProfileService
-      this.profileService = new ProfileService(supabaseService);
+      // Mostrar loading
+      this.showLoading(true);
 
       // Carregar dados do perfil
       await this.loadProfile();
       await this.loadServices();
 
-      // Renderizar se temos dados
-      if (this.profile || this.services.length > 0) {
-        this.renderProfile();
-        console.log("✅ About dinâmico carregado!");
-      } else {
-        console.log("📊 Nenhum dado encontrado, mantendo estático");
-      }
+      // Atualizar SIDEBAR primeiro (sempre visível)
+      this.updateSidebar();
+
+      // Atualizar página ABOUT (se estiver ativa)
+      this.renderAboutPage();
+
+      // Esconder loading
+      this.showLoading(false);
+
+      console.log("✅ About + Sidebar carregados do banco!");
     } catch (error) {
       console.error("❌ Erro no about dinâmico:", error);
+      this.showLoading(false);
     }
   }
 
   async loadProfile() {
     try {
-      this.profile = await this.profileService.getProfile();
-      console.log(`📊 Perfil carregado:`, this.profile?.name);
+      console.log("🔄 Carregando perfil do banco...");
+      this.profile = await this.supabaseService.getProfile();
+
+      console.log("📊 === PROFILE DEBUG ===");
+      console.log("Profile loaded:", !!this.profile);
+      console.log("Profile data:", this.profile);
+
+      if (this.profile) {
+        console.log("Name:", this.profile.name);
+        console.log("Title:", this.profile.title);
+        console.log("Avatar URL:", this.profile.avatar_url);
+        console.log("Email:", this.profile.email);
+        console.log("Phone:", this.profile.phone);
+      }
     } catch (error) {
       console.error("Erro ao carregar perfil:", error);
       this.profile = null;
@@ -67,20 +81,162 @@ class AboutDynamic {
 
   async loadServices() {
     try {
-      this.services = await this.profileService.getServices();
-      console.log(`📊 ${this.services.length} serviços carregados`);
+      this.services = await this.supabaseService.getServices();
+      console.log(`📊 ${this.services.length} serviços carregados do banco`);
     } catch (error) {
       console.error("Erro ao carregar serviços:", error);
       this.services = [];
     }
   }
 
-  renderProfile() {
-    // Atualizar dados pessoais se disponível
-    if (this.profile) {
-      this.updateBasicInfo();
-      this.updateAboutText();
-      this.updateContactInfo();
+  // ============================================
+  // SIDEBAR (sempre atualiza)
+  // ============================================
+  updateSidebar() {
+    if (!this.profile) {
+      console.log("📊 Sem dados do banco para a sidebar");
+      return;
+    }
+
+    console.log("🎛️ Atualizando SIDEBAR com dados do banco...");
+
+    this.updateSidebarAvatar();
+    this.updateSidebarBasicInfo();
+    this.updateSidebarContactInfo();
+    this.updateSidebarSocialLinks();
+  }
+
+  updateSidebarAvatar() {
+    const avatarImg = document.querySelector(".avatar-box img");
+
+    console.log("🖼️ === SIDEBAR AVATAR DEBUG ===");
+    console.log("Element found:", !!avatarImg);
+    console.log("Avatar URL:", this.profile?.avatar_url);
+
+    if (!avatarImg) {
+      console.error("❌ Avatar img element not found!");
+      return;
+    }
+
+    if (!this.profile.avatar_url) {
+      console.warn("⚠️ Avatar URL is empty in database");
+      return;
+    }
+
+    console.log("🔄 Setting avatar src to:", this.profile.avatar_url);
+    avatarImg.src = this.profile.avatar_url;
+    avatarImg.alt = this.profile.name || "Avatar";
+
+    avatarImg.onload = () => {
+      console.log("✅ Sidebar avatar carregado com sucesso!");
+    };
+
+    avatarImg.onerror = (e) => {
+      console.error("❌ Erro ao carregar sidebar avatar:", e);
+    };
+  }
+
+  updateSidebarBasicInfo() {
+    // Nome
+    const nameElement = document.querySelector(".name");
+    if (nameElement && this.profile.name) {
+      nameElement.textContent = this.profile.name;
+      nameElement.title = this.profile.name;
+      console.log("✅ Sidebar nome atualizado:", this.profile.name);
+    }
+
+    // Título
+    const titleElement = document.querySelector(".info-content .title");
+    if (titleElement && this.profile.title) {
+      titleElement.textContent = this.profile.title;
+      console.log("✅ Sidebar título atualizado:", this.profile.title);
+    }
+  }
+
+  updateSidebarContactInfo() {
+    // Email - primeiro .contact-link
+    const emailElement = document.querySelector(".contact-info .contact-link");
+    if (emailElement && this.profile.email) {
+      emailElement.href = `mailto:${this.profile.email}`;
+      emailElement.textContent = this.profile.email;
+      console.log("✅ Sidebar email atualizado:", this.profile.email);
+    }
+
+    // Telefone - segundo .contact-link
+    const contactLinks = document.querySelectorAll(
+      ".contact-info .contact-link"
+    );
+    const phoneElement = contactLinks[1];
+    if (phoneElement && this.profile.phone) {
+      phoneElement.href = `tel:${this.profile.phone.replace(/\s/g, "")}`;
+      phoneElement.textContent = this.profile.phone;
+      console.log("✅ Sidebar telefone atualizado:", this.profile.phone);
+    }
+
+    // Aniversário
+    const birthdayElement = document.querySelector("time");
+    if (birthdayElement && this.profile.birthday) {
+      const formattedDate = this.formatBirthday(this.profile.birthday);
+      birthdayElement.textContent = formattedDate;
+      birthdayElement.dateTime = this.profile.birthday;
+      console.log("✅ Sidebar aniversário atualizado:", formattedDate);
+    }
+
+    // Localização
+    const locationElement = document.querySelector("address");
+    if (locationElement && this.profile.location) {
+      locationElement.textContent = this.profile.location;
+      console.log("✅ Sidebar localização atualizada:", this.profile.location);
+    }
+  }
+
+  updateSidebarSocialLinks() {
+    const socialLinks = document.querySelectorAll(".social-link");
+    console.log("🔗 Social links found:", socialLinks.length);
+
+    socialLinks.forEach((link, index) => {
+      const icon = link.querySelector("ion-icon");
+      const iconName = icon?.getAttribute("name");
+
+      switch (iconName) {
+        case "logo-facebook":
+          if (this.profile.facebook_url) {
+            link.href = this.profile.facebook_url;
+            console.log("✅ Sidebar Facebook atualizado");
+          }
+          break;
+        case "logo-github":
+          if (this.profile.github_url) {
+            link.href = this.profile.github_url;
+            console.log("✅ Sidebar GitHub atualizado");
+          }
+          break;
+        case "logo-instagram":
+          if (this.profile.instagram_url) {
+            link.href = this.profile.instagram_url;
+            console.log("✅ Sidebar Instagram atualizado");
+          }
+          break;
+      }
+    });
+  }
+
+  // ============================================
+  // ABOUT PAGE (só se estiver ativa)
+  // ============================================
+  renderAboutPage() {
+    // Verificar se About está ativa
+    const aboutSection = document.querySelector("article.about.active");
+    if (!aboutSection) {
+      console.log("📄 About não está ativa, pulando renderização");
+      return;
+    }
+
+    console.log("📄 Renderizando página About...");
+
+    // Renderizar bio se disponível
+    if (this.profile?.bio) {
+      this.renderBio();
     }
 
     // Renderizar serviços se disponível
@@ -89,118 +245,47 @@ class AboutDynamic {
     }
   }
 
-  updateBasicInfo() {
-    // Atualizar nome na sidebar
-    const nameElement = document.querySelector(".name");
-    if (nameElement && this.profile.name) {
-      nameElement.textContent = this.profile.name;
-      nameElement.title = this.profile.name;
-    }
-
-    // Atualizar título/profissão
-    const titleElement = document.querySelector(".info-content .title");
-    if (titleElement && this.profile.title) {
-      titleElement.textContent = this.profile.title;
-    }
-
-    // Atualizar avatar se disponível
-    const avatarImg = document.querySelector(".avatar-box img");
-    if (avatarImg && this.profile.avatar_url) {
-      avatarImg.src = this.profile.avatar_url;
-      avatarImg.alt = this.profile.name || "Avatar";
-    }
-  }
-
-  updateAboutText() {
+  renderBio() {
     const aboutTextSection = document.querySelector(".about-text");
-    if (!aboutTextSection || !this.profile.bio) return;
-
-    // Dividir bio em parágrafos (se tiver quebras de linha)
-    const paragraphs = this.profile.bio.split('\n\n');
-    
-    const aboutHTML = paragraphs
-      .map(paragraph => `<p>${paragraph.trim()}</p>`)
-      .join('');
-
-    aboutTextSection.innerHTML = aboutHTML;
-  }
-
-  updateContactInfo() {
-    // Atualizar email se disponível
-    if (this.profile.email) {
-      const emailLink = document.querySelector('.contact-link[href*="@"], .contact-link[href*="mail"]');
-      if (emailLink) {
-        emailLink.href = `mailto:${this.profile.email}`;
-        emailLink.textContent = this.profile.email;
-      }
+    if (!aboutTextSection) {
+      console.warn("⚠️ Seção .about-text não encontrada");
+      return;
     }
 
-    // Atualizar telefone se disponível
-    if (this.profile.phone) {
-      const phoneLink = document.querySelector('.contact-link[href*="tel"]');
-      if (phoneLink) {
-        phoneLink.href = `tel:${this.profile.phone}`;
-        phoneLink.textContent = this.profile.phone;
-      }
-    }
-
-    // Atualizar aniversário se disponível
-    if (this.profile.birthday) {
-      const birthdayElement = document.querySelector('time[datetime]');
-      if (birthdayElement) {
-        const formattedDate = this.profileService.formatBirthday(this.profile.birthday);
-        birthdayElement.textContent = formattedDate;
-        birthdayElement.dateTime = this.profile.birthday;
-      }
-    }
-
-    // Atualizar localização se disponível
-    if (this.profile.location) {
-      const locationElement = document.querySelector('address');
-      if (locationElement) {
-        locationElement.textContent = this.profile.location;
-      }
-    }
-
-    // Atualizar links sociais se disponível
-    this.updateSocialLinks();
-  }
-
-  updateSocialLinks() {
-    const socialLinks = {
-      facebook: this.profile.facebook_url,
-      github: this.profile.github_url,
-      instagram: this.profile.instagram_url,
-      linkedin: this.profile.linkedin_url
-    };
-
-    Object.entries(socialLinks).forEach(([platform, url]) => {
-      if (url) {
-        const linkElement = document.querySelector(`ion-icon[name="logo-${platform}"]`)?.closest('a');
-        if (linkElement) {
-          linkElement.href = url;
-        }
-      }
-    });
-  }
-  renderServices() {
-    const servicesList = document.querySelector(".service-list");
-    if (!servicesList) return;
-
-    // Gerar HTML dos serviços
-    const servicesHTML = this.services
-      .map(service => this.createServiceHTML(service))
+    const paragraphs = this.profile.bio.split("\n\n").filter((p) => p.trim());
+    const bioHTML = paragraphs
+      .map((paragraph) => `<p>${paragraph.trim()}</p>`)
       .join("");
 
-    // Atualizar DOM
+    aboutTextSection.innerHTML = bioHTML;
+    console.log("✅ About bio atualizada do banco");
+  }
+
+  renderServices() {
+    const servicesList = document.querySelector(".service-list");
+    if (!servicesList) {
+      console.warn("⚠️ Lista .service-list não encontrada");
+      return;
+    }
+
+    const servicesHTML = this.services
+      .map((service) => this.createServiceHTML(service))
+      .join("");
+
     servicesList.innerHTML = servicesHTML;
+    console.log(
+      `✅ About ${this.services.length} serviços renderizados do banco`
+    );
   }
 
   createServiceHTML(service) {
     return `
       <li class="service-item">
         <div class="service-icon-box">
-          <img src="${service.icon_url}" alt="${service.name} icon" width="40">
+          <img src="${service.icon_url || "./assets/images/icon-design.svg"}" 
+               alt="${service.name} icon" 
+               width="40"
+               onerror="this.src='./assets/images/icon-design.svg'">
         </div>
         <div class="service-content-box">
           <h4 class="h4 service-item-title">${service.name}</h4>
@@ -209,46 +294,131 @@ class AboutDynamic {
       </li>
     `;
   }
+
+  // ============================================
+  // LOADING
+  // ============================================
+  showLoading(show) {
+    const aboutSection = document.querySelector("article.about");
+    if (!aboutSection) return;
+
+    if (show) {
+      if (!aboutSection.querySelector(".about-loading-overlay")) {
+        const overlay = document.createElement("div");
+        overlay.className = "about-loading-overlay";
+        overlay.innerHTML = `
+          <div class="about-loading-spinner"></div>
+          <p>Carregando perfil...</p>
+        `;
+        aboutSection.appendChild(overlay);
+        this.addLoadingCSS();
+      }
+    } else {
+      const overlay = aboutSection.querySelector(".about-loading-overlay");
+      if (overlay) {
+        overlay.remove();
+      }
+    }
+  }
+
+  addLoadingCSS() {
+    if (document.querySelector("#about-loading-css")) return;
+
+    const style = document.createElement("style");
+    style.id = "about-loading-css";
+    style.textContent = `
+      .about-loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(2px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        border-radius: 20px;
+        color: var(--orange-yellow-crayola);
+      }
+
+      .about-loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--jet);
+        border-top: 3px solid var(--orange-yellow-crayola);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      article.about {
+        position: relative;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // ============================================
+  // UTILS
+  // ============================================
+  formatBirthday(birthday) {
+    if (!birthday) return "";
+    try {
+      const date = new Date(birthday);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch (error) {
+      console.warn("Erro ao formatar data:", error);
+      return birthday;
+    }
+  }
+
+  // Método para refresh (caso necessário)
+  async refresh() {
+    this.showLoading(true);
+    await this.loadProfile();
+    await this.loadServices();
+    this.updateSidebar(); // Sempre atualiza sidebar
+    this.renderAboutPage(); // Só se About estiver ativa
+    this.showLoading(false);
+  }
 }
 
-// Função para inicializar quando apropriado
+// Função para inicializar
 function initAboutDynamic() {
-  // Verificar se estamos na página About
-  const aboutSection = document.querySelector("article.about");
-  if (!aboutSection) return;
-
+  console.log("🚀 Inicializando About + Sidebar...");
   const about = new AboutDynamic();
   about.init();
+
+  // Expor globalmente
+  window.aboutDynamic = about;
 }
 
-// Auto-inicializar IMEDIATAMENTE quando módulo carrega
-setTimeout(initAboutDynamic, 500);
+// Auto-inicializar IMEDIATAMENTE (About é primeira aba)
+setTimeout(initAboutDynamic, 1000);
 
-// Auto-inicializar em diferentes momentos
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(initAboutDynamic, 1000);
-});
-
-// Escutar mudanças de navegação (sistema atual)
+// Escutar mudanças de navegação para re-renderizar About
 document.addEventListener("click", (e) => {
   const navLink = e.target.closest("[data-nav-link]");
   if (navLink && navLink.textContent.trim().toLowerCase() === "about") {
-    setTimeout(initAboutDynamic, 800);
+    // Só re-renderizar About, sidebar já está populada
+    setTimeout(() => {
+      if (window.aboutDynamic) {
+        window.aboutDynamic.renderAboutPage();
+      }
+    }, 300);
   }
 });
-
-// FORÇA: Executar periodicamente até funcionar
-let aboutAttempts = 0;
-const aboutInterval = setInterval(() => {
-  aboutAttempts++;
-  
-  const aboutSection = document.querySelector("article.about.active");
-  if (aboutSection && window.portfolioApp?.supabaseService) {
-    initAboutDynamic();
-    clearInterval(aboutInterval);
-  }
-  
-  if (aboutAttempts > 10) clearInterval(aboutInterval); // Max 5 segundos
-}, 500);
 
 export default AboutDynamic;

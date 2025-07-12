@@ -114,11 +114,16 @@ class UploadService {
   // GERAR URL PÚBLICA
   // ============================================
   getPublicUrl(bucket, filePath) {
+    // Garantir que não há barras duplas no filePath
+    const cleanPath = filePath.replace(/^\/+/, '').replace(/\/+/g, '/');
+    
     const { data } = this.supabaseService.client.storage
       .from(bucket)
-      .getPublicUrl(filePath);
+      .getPublicUrl(cleanPath);
 
-    return data.publicUrl;
+    // Limpar URL final também
+    const cleanUrl = data.publicUrl.replace(/\/\/+/g, '/').replace(':/', '://');
+    return cleanUrl;
   }
 
   // ============================================
@@ -138,12 +143,37 @@ class UploadService {
         maxSize: 5242880,
         types: ["image/jpeg", "image/png", "image/webp", "image/gif"],
       },
-      certificates: { maxSize: 10485760, types: ["application/pdf"] },
+      images: {
+        maxSize: 10485760, // ← AUMENTADO para 10MB
+        types: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+      },
+      certificates: {
+        maxSize: 10485760,
+        types: ["application/pdf"],
+      },
     };
 
     const limit = limits[bucket];
     if (!limit) {
-      throw new Error(`Bucket "${bucket}" não configurado`);
+      console.warn(
+        `Bucket "${bucket}" não configurado, usando configuração padrão`
+      );
+      // Fallback para 10MB também
+      const defaultLimit = {
+        maxSize: 10485760, // 10MB
+        types: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+      };
+
+      if (file.size > defaultLimit.maxSize) {
+        const maxMB = (defaultLimit.maxSize / 1024 / 1024).toFixed(1);
+        throw new Error(`Arquivo muito grande. Máximo: ${maxMB}MB`);
+      }
+
+      if (!defaultLimit.types.includes(file.type)) {
+        throw new Error(`Formato não suportado. Use: JPG, PNG, WebP ou GIF`);
+      }
+
+      return true;
     }
 
     // Validar tamanho
@@ -154,7 +184,7 @@ class UploadService {
 
     // Validar tipo
     if (!limit.types.includes(file.type)) {
-      throw new Error(`Tipo de arquivo não suportado: ${file.type}`);
+      throw new Error(`Formato não suportado. Use: JPG, PNG, WebP ou GIF`);
     }
 
     return true;

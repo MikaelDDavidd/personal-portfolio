@@ -9,6 +9,7 @@
 @import "./core/variables.css";
 @import "./core/reset.css";
 @import "./core/base.css";
+@import "./core/design-system.css";
 
 /*-----------------------------------*\
   #COMPONENT STYLES (Componentes)
@@ -21,7 +22,14 @@
 @import "./components/projects.css";
 @import "./components/project-modal.css";
 @import "./components/blog-modal.css";
-
+@import "./components/profile/header.css";
+@import "./components/profile/services.css";
+@import "./components/profile/sections.css";
+@import "./components/profile/education.css";
+@import "./components/profile/experience.css";
+@import "./components/profile/skills.css";
+@import "./components/profile/certificates.css";
+@import "./components/analytics-insights.css";
 /*-----------------------------------*\
   #PAGE STYLES (Páginas específicas)
 \*-----------------------------------*/
