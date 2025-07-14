@@ -1,0 +1,17 @@
+{
+  "name": "bio-linktree",
+  "version": "1.0.0",
+  "description": "Linktree-style bio page for personal portfolio",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server . -p 3001 -o",
+    "start": "npx http-server . -p 3001",
+    "preview": "npx http-server . -p 3001 -o"
+  },
+  "keywords": ["bio", "linktree", "portfolio"],
+  "author": "Mikael David",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

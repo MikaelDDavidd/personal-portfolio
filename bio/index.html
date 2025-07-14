@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Meta Tags Dinâmicas -->
+  <title id="page-title">Mikael David - Bio Links</title>
+  <meta name="description" id="meta-description" content="Links importantes do desenvolvedor Mikael David">
+  <meta name="author" content="Mikael David">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" id="og-title" content="Mikael David - Bio Links">
+  <meta property="og:description" id="og-description" content="Links importantes do desenvolvedor Mikael David">
+  <meta property="og:image" id="og-image" content="./assets/images/og-image.jpg">
+  <meta property="og:url" content="https://bio.mikaeldavid.online">
+  <meta property="og:type" content="profile">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" id="twitter-title" content="Mikael David - Bio Links">
+  <meta name="twitter:description" id="twitter-description" content="Links importantes do desenvolvedor Mikael David">
+  <meta name="twitter:image" id="twitter-image" content="./assets/images/og-image.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/images/logo.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./src/styles/main.css">
+  
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Carregando bio...</p>
+  </div>
+
+  <!-- Main Container -->
+  <main class="bio-container" id="bio-container">
+    
+    <!-- Background -->
+    <div class="bio-background" id="bio-background"></div>
+    
+    <!-- Content -->
+    <div class="bio-content">
+      
+      <!-- Avatar Section -->
+      <section class="avatar-section">
+        <div class="avatar-wrapper">
+          <img id="profile-avatar" src="" alt="Avatar" class="avatar" style="display: none;">
+          <div id="avatar-placeholder" class="avatar-placeholder">
+            <ion-icon name="person-outline"></ion-icon>
+          </div>
+          <div class="avatar-ring"></div>
+        </div>
+        <h1 id="profile-name" class="profile-name">Carregando...</h1>
+        <p id="profile-bio" class="profile-bio">Carregando informações...</p>
+      </section>
+
+      <!-- Social Links Section -->
+      <section class="social-section">
+        <div id="social-links" class="social-links">
+          <!-- Links sociais carregados dinamicamente -->
+        </div>
+      </section>
+
+      <!-- Useful Links Section -->
+      <section class="links-section">
+        <div id="useful-links" class="useful-links">
+          <!-- Links úteis carregados dinamicamente -->
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bio-footer">
+        <p>Powered by <a href="../portfolio" target="_blank">Mikael David</a></p>
+        <div class="analytics-info">
+          <span id="total-views">0 visualizações</span>
+          <span class="separator">•</span>
+          <span id="total-clicks">0 clicks</span>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Error State -->
+  <div id="error-state" class="error-state hidden">
+    <div class="error-content">
+      <div class="error-icon">❌</div>
+      <h2>Ops! Algo deu errado</h2>
+      <p>Não foi possível carregar as informações da bio.</p>
+      <button onclick="window.location.reload()" class="retry-btn">Tentar Novamente</button>
+    </div>
+  </div>
+
+  <!-- Success Toast -->
+  <div id="toast" class="toast hidden">
+    <div class="toast-content">
+      <span class="toast-icon">✅</span>
+      <span class="toast-message">Link copiado!</span>
+    </div>
+  </div>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Main JS -->
+  <script src="./src/services/supabase.service.js"></script>
+  <script src="./src/components/bio.component.js"></script>
+  <script src="./assets/js/main.js"></script>
+
+</body>
+</html>
